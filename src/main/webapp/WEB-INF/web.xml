@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0">
+    <display-name>ENI-ENCHERES</display-name>
+    <context-param>
+        <param-name>javax.faces.CONFIG_FILES</param-name>
+        <param-value>/META-INF/context.xml</param-value>
+    </context-param>
+    <welcome-file-list>
+            <welcome-file>JSPConnexion.jsp</welcome-file>
+            <welcome-file></welcome-file>
+            <welcome-file></welcome-file>
+    </welcome-file-list>
+    <!--
+           <servlet>
+               <servlet-name>ServletConnexion</servlet-name>
+               <servlet-class>fr.eni.javaee.servlet.ServletConnexion</servlet-class>
+           </servlet>
+           <servlet-mapping>
+               <servlet-name>ServletConnexion</servlet-name>
+               <url-pattern>/connexion</url-pattern>
+           </servlet-mapping>
+
+               <servlet>
+                   <servlet-name>Inscription</servlet-name>
+                   <jsp-file>/WEB-INF/InscriptionUtilisateur.jsp</jsp-file>
+               </servlet>
+               <servlet-mapping>
+                   <servlet-name>Inscription</servlet-name>
+                   <url-pattern>/Inscription</url-pattern>
+               </servlet-mapping>
+
+               <servlet>
+                   <servlet-name>AccueilDeconnecte</servlet-name>
+                   <jsp-file>/WEB-INF/accueilDeconnecte.jsp</jsp-file>
+               </servlet>
+               <servlet-mapping>
+                   <servlet-name>AccueilDeconnecte</servlet-name>
+                   <url-pattern>/JSPAccueilDeconnecte</url-pattern>
+               </servlet-mapping>
+
+           -->
+</web-app>

@@ -1,27 +1,30 @@
 package fr.eni.javaee.DAL;
 
-import fr.eni.javaee.BO.Categorie;
+import fr.eni.javaee.BO.Enchere;
 import fr.eni.javaee.BusinessException;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+public class EnchereDAOJdbcImpl implements EnchereDAO{
 
-public class CategorieDAOJdbcImpl implements CategorieDAO {
-    public static final String INSERT = "INSERT into CATEGORIES VALUES (?)";
-    public static final String SElECT_ALL = "SELECT * FROM CATEGORIES";
-    public static final String SELECT_BY_ID = "SELECT * FROM CATEGORIES WHERE id = ?";
-    private static final String UPDATE = "UPDATE CATEGORIES SET libelle = ? WHERE id=?";
-    private static final String DELETE = "DELETE CATEGORIES WHERE id=?";
-    private static final String SELECT_BY_LIBELLE = "SELECT * FROM CATEGORIES WHERE libelle=?";
+    // Dans la database, dans la table Encheres  il faut rajouter id(int, auto increment) + gagner(boolean/bit) + modification des colonnes no_? en id_? (article, utilisateur)
+
+    public static final String INSERT = "INSERT into ENCHERES(id_utilisateur,id_article,date_enchere,montant_enchere,gagner) VALUES (?,?,?,?,?)";
+    public static final String SElECT_ALL = "SELECT * FROM ENCHERES";
+    public static final String SELECT_BY_ID = "SELECT * FROM ENCHERES WHERE id_article = ?";
+    private static final String UPDATE = "UPDATE ENCHERES SET id_utilisateur= ?, id_article = ?,date_enchere = ?, " +
+                                             "montant_enchere= ?, gagner=? WHERE id=?";
+    private static final String DELETE = "DELETE ENCHERES WHERE id=?";
 
 
     @Override
-    public Categorie insert (Categorie categorie) throws BusinessException {
-        if (categorie == null) {
+    public Enchere insert (Enchere enchere) throws BusinessException {
+        if (enchere == null) {
             BusinessException businessException = new BusinessException();
             businessException.ajouterErreur(CodesResultatsDAL.INSERT_OBJECT_NULL);
             throw businessException;
@@ -31,15 +34,22 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
                 cnx.setAutoCommit(false);
                 PreparedStatement pstmt;
                 ResultSet rs;
+        // L'utilisateur doit correspondre au à celui qui encherit sur l'objet (méthodes adéquates dans code)
+        // Le nom doit être modifié en conséquence
+
                 pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
-                pstmt.setString(1, categorie.getLibelle());
+                pstmt.setInt(1, enchere.getId_utilisateur());
+                pstmt.setInt(2, enchere.getId_article());
+                pstmt.setDate(3,Date.valueOf(enchere.getDateEnchere()));
+                pstmt.setInt(4, enchere.getMontantEnchere());
+                pstmt.setBoolean(5, enchere.isGagner());
 
                 pstmt.executeUpdate();
 
                 rs = pstmt.getGeneratedKeys();
 
                 if (rs.next()) {
-                    categorie.setId(rs.getInt(1));
+                    enchere.setId(rs.getInt(1));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -52,7 +62,7 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
             businessException.ajouterErreur(CodesResultatsDAL.INSERT_USER_ECHEC);
             throw businessException;
         }
-        return categorie;
+        return enchere;
     }
 
     @Override
@@ -75,13 +85,14 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
     }
 
     @Override
-    public List<Categorie> selectAll () throws BusinessException {
-        List<Categorie> listeCategorie = new ArrayList<Categorie>();
+    public List<Enchere> selectAll () throws BusinessException {
+        List<Enchere> listeEncheres = new ArrayList<Enchere>();
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstm = cnx.prepareStatement(SElECT_ALL);
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
-                listeCategorie.add(new Categorie(rs.getInt("id"), rs.getString("libelle")));
+                listeEncheres.add(new Enchere(rs.getInt("id"), rs.getInt("id_utilisateur"),rs.getInt("id_article"),
+                        rs.getDate("date_enchere").toLocalDate(),rs.getInt("montant_enchere"),rs.getBoolean("gagner")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,38 +100,45 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
             businessException.ajouterErreur(CodesResultatsDAL.LECTURE_CATEGORIE_ECHEC);
             throw businessException;
         }
-        return listeCategorie;
+        return listeEncheres;
     }
 
     @Override
-    public Categorie selectById (int id) throws BusinessException {
-        Categorie categorie = null;
+    public Enchere selectById (int id) throws BusinessException {
+        Enchere enchere = null;
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstm = cnx.prepareStatement(SELECT_BY_ID);
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {
-                categorie = new Categorie();
-                categorie.setId(rs.getInt("id"));
-                categorie.setLibelle(rs.getString("libelle"));
+                enchere = new Enchere();
+                enchere.setId(rs.getInt("id"));
+                enchere.setId_utilisateur(rs.getInt("id_utilisateur"));
+                enchere.setId_article(rs.getInt("id_article"));
+                enchere.setDateEnchere(rs.getDate("date_enchere").toLocalDate());
+                enchere.setMontantEnchere(rs.getInt("montant_enchere"));
+                enchere.setGagner(rs.getBoolean("gagner"));
             }
         } catch (Exception e) {
             e.printStackTrace();
             BusinessException businessException = new BusinessException();
-            businessException.ajouterErreur(CodesResultatsDAL.LECTURE_CATEGORIE_ECHEC);
+            businessException.ajouterErreur(CodesResultatsDAL.LECTURE_RETRAIT_ECHEC);
             throw businessException;
         }
-        return categorie;
+        return enchere;
     }
 
     @Override
-    public void update (Categorie categorie) throws BusinessException {
+    public void update (Enchere enchere) throws BusinessException {
         try (Connection cnx = ConnectionProvider.getConnection()) {
 
             PreparedStatement pstm = cnx.prepareStatement(UPDATE);
 
-            pstm.setInt(1, categorie.getId());
-            pstm.setString(2, categorie.getLibelle());
-
+            pstm.setInt(1, enchere.getId());
+            pstm.setInt(2, enchere.getId_utilisateur());
+            pstm.setInt(3, enchere.getId_article());
+            pstm.setDate(4, Date.valueOf(enchere.getDateEnchere()));
+            pstm.setInt(5, enchere.getMontantEnchere());
+            pstm.setBoolean(6, enchere.isGagner());
             pstm.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,25 +147,5 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
             throw businessException;
 
         }
-
-    }
-
-    public Categorie selectByLibelle (String libelle) throws BusinessException {
-        Categorie categorie = null;
-        try (Connection cnx = ConnectionProvider.getConnection()) {
-            PreparedStatement pstm = cnx.prepareStatement(SELECT_BY_LIBELLE);
-            ResultSet rs = pstm.executeQuery();
-            if (rs.next()) {
-                categorie = new Categorie();
-                categorie.setId(rs.getInt("id"));
-                categorie.setLibelle(rs.getString("libelle"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            BusinessException businessException = new BusinessException();
-            businessException.ajouterErreur(CodesResultatsDAL.LECTURE_LIBELLE_ECHEC);
-            throw businessException;
-        }
-        return categorie;
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class RetraitDAOJdbcImpl implements RetraitDAO {
 
-    public static final String INSERT = "INSERT into RETRAITS VALUES (?,?,?)";
+    public static final String INSERT = "INSERT into RETRAITS(id_article, rue, code_postal, ville) VALUES (?,?,?,?)";
     public static final String SElECT_ALL = "SELECT * FROM RETRAITS";
     public static final String SELECT_BY_ID = "SELECT * FROM RETRAITS WHERE id_article = ?";
     private static final String UPDATE = "UPDATE RETRAITS SET rue = ?, code_postal = ?, ville = ? WHERE id_article=?";
@@ -58,28 +58,6 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
         return retrait;
     }
 
-
-// A modifier en fonction des méthodes utilisés dans ArticleDAO
-/*    @Override
-    public void delete (Integer id) throws BusinessException {
-        try (Connection cnx = ConnectionProvider.getConnection()) {
-            PreparedStatement pstmt = cnx.prepareStatement(DELETE);
-            pstmt.setInt(1, id);
-            Retrait retrait =selectById(id);
-            List<Article> listeArticle = ArticleDAO.getByRetrait(retrait);
-            for (Article articleVendu : listeArticle) {
-                articleVendu.setLieuRetrait(null);
-            }
-            pstmt.executeUpdate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            BusinessException businessException = new BusinessException();
-            businessException.ajouterErreur(CodesResultatsDAL.DELETE_OBJET_ECHEC);
-            throw businessException;
-
-        }
-    }*/
 
     @Override
     public List<Retrait> selectAll () throws BusinessException {
@@ -142,5 +120,26 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
         }
 
     }
+    // A modifier en fonction des méthodes utilisés dans ArticleDAO
+/*    @Override
+    public void delete (Integer id) throws BusinessException {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement pstmt = cnx.prepareStatement(DELETE);
+            pstmt.setInt(1, id);
+            Retrait retrait =selectById(id);
+            List<Article> listeArticle = ArticleDAO.getByRetrait(retrait);
+            for (Article articleVendu : listeArticle) {
+                articleVendu.setLieuRetrait(null);
+            }
+            pstmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            BusinessException businessException = new BusinessException();
+            businessException.ajouterErreur(CodesResultatsDAL.DELETE_OBJET_ECHEC);
+            throw businessException;
+
+        }
+    }*/
     }
 

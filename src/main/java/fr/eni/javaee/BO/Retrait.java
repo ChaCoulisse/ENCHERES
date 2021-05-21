@@ -3,7 +3,7 @@ package fr.eni.javaee.BO;
 import java.io.Serializable;
 
 public class Retrait implements Serializable {
-    private Integer numArticle;
+    private Integer id;
     private String rue;
     private String cp;
     private String ville;
@@ -11,8 +11,8 @@ public class Retrait implements Serializable {
     public Retrait () {
     }
 
-    public Retrait (Integer numArticle, String rue, String cp, String ville) {
-        this.numArticle = numArticle;
+    public Retrait (Integer id, String rue, String cp, String ville) {
+        this.id = id;
         this.rue = rue;
         this.cp = cp;
         this.ville = ville;
@@ -24,12 +24,12 @@ public class Retrait implements Serializable {
         this.ville = ville;
     }
 
-    public Integer getNumArticle () {
-        return numArticle;
+    public Integer getId () {
+        return id;
     }
 
-    public void setNumArticle (Integer numArticle) {
-        this.numArticle = numArticle;
+    public void setId (Integer id) {
+        this.id = id;
     }
 
     public String getRue () {
@@ -59,7 +59,7 @@ public class Retrait implements Serializable {
     @Override
     public String toString () {
         return "Retrait{" +
-                "numArticle=" + numArticle +
+                "numArticle=" + id +
                 ", rue='" + rue + '\'' +
                 ", cp='" + cp + '\'' +
                 ", ville='" + ville + '\'' +

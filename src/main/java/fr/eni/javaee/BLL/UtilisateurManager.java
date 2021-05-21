@@ -1,4 +1,4 @@
-package fr.eni.javaee.brouillon;
+package fr.eni.javaee.BLL;
 
 import fr.eni.javaee.BLL.CodesResultatsBLL;
 import fr.eni.javaee.BO.Utilisateurs;
@@ -12,13 +12,15 @@ import java.util.List;
 public class UtilisateurManager {
 
     private static UtilisateursDAO utilisateursDAO = new UtilisateurDAOJdbcImpl();
+    private static Utilisateurs utilisateurs = new Utilisateurs();
     private static BusinessException businessException = new BusinessException();
 
     public UtilisateurManager () {
         utilisateursDAO = DAOFactory.getUtilisateurDAO();
     }
 
-    public Utilisateurs inscriptionUtilisateur(Utilisateurs utilisateur) throws BusinessException{
+
+    public static Utilisateurs inscriptionUtilisateur(Utilisateurs utilisateur) throws BusinessException{
             validerInformations(utilisateur);
 
         if(!businessException.hasErreurs()) {
@@ -29,7 +31,7 @@ public class UtilisateurManager {
         return utilisateur;
     }
 
-    private void validerInformations (Utilisateurs utilisateur) {
+    private static void validerInformations (Utilisateurs utilisateur) {
         if (utilisateur.getPseudo().trim().equals("") || utilisateur.getNom().trim().equals("")
                 || utilisateur.getPrenom().trim().equals("") || utilisateur.getEmail().trim().equals("")
                 || utilisateur.getRue().trim().equals("") || utilisateur.getCp().trim().equals("")

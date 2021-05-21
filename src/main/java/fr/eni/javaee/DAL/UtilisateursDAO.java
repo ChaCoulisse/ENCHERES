@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UtilisateursDAO {
 
-    public void insert(Utilisateurs utilisateurs) throws BusinessException; // pour l'inscription
+    public Utilisateurs insert(Utilisateurs utilisateurs) throws BusinessException; // pour l'inscription
     public void delete(Integer id) throws BusinessException; // admin
     public List<Utilisateurs> selectAll() throws BusinessException; //admin
     public Utilisateurs selectById(int id) throws BusinessException;

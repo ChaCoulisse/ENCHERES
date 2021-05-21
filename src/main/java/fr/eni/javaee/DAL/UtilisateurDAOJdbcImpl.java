@@ -17,7 +17,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO {
 
 
     @Override
-    public void insert (Utilisateurs utilisateurs) throws BusinessException {
+    public Utilisateurs insert (Utilisateurs utilisateurs) throws BusinessException {
 
         if (utilisateurs == null) {
             BusinessException businessException = new BusinessException();
@@ -65,7 +65,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO {
             businessException.ajouterErreur(CodesResultatsDAL.INSERT_USER_ECHEC);
             throw businessException;
         }
-
+        return utilisateurs;
     }
 
     @Override

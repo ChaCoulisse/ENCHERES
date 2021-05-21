@@ -1,5 +1,6 @@
 package fr.eni.javaee.DAL;
 
+import fr.eni.javaee.BO.Article;
 import fr.eni.javaee.BO.Utilisateurs;
 import fr.eni.javaee.BusinessException;
 
@@ -12,4 +13,6 @@ public interface UtilisateursDAO {
     public List<Utilisateurs> selectAll() throws BusinessException; //admin
     public Utilisateurs selectById(int id) throws BusinessException;
     public Utilisateurs selectByPseudo(String pseudo) throws BusinessException;
-}
+
+    }
+

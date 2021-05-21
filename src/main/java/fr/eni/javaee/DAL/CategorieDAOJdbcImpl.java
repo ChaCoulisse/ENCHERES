@@ -13,6 +13,11 @@ import java.util.List;
 public class CategorieDAOJdbcImpl implements CategorieDAO {
     public static final String INSERT = "INSERT into CATEGORIES VALUES (?)";
     public static final String SElECT_ALL = "SELECT * FROM CATEGORIES";
+    public static final String SELECT_BY_ID = "SELECT * FROM CATEGORIES WHERE id = ?";
+    private static final String UPDATE = "UPDATE CATEGORIES SET libelle = ? WHERE id=?";
+    private static final String DELETE = "DELETE CATEGORIES WHERE id=?";
+    private static final String SELECT_BY_LIBELLE = "SELECT * FROM CATEGORIES WHERE libelle=?";
+
 
     @Override
     public Categorie insert (Categorie categorie) throws BusinessException {
@@ -50,10 +55,23 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
         return categorie;
     }
 
-
     @Override
     public void delete (Integer id) throws BusinessException {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
 
+            PreparedStatement statement = cnx.prepareStatement(DELETE);
+
+            statement.setInt(1, id);
+
+            statement.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            BusinessException businessException = new BusinessException();
+            businessException.ajouterErreur(CodesResultatsDAL.DELETE_OBJET_ECHEC);
+            throw businessException;
+
+        }
     }
 
     @Override
@@ -65,27 +83,27 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
             while (rs.next()) {
                 listeCategorie.add(new Categorie(rs.getInt("id"), rs.getString("libelle")));
             }
-        } catch(Exception e){
-                e.printStackTrace();
-                BusinessException businessException = new BusinessException();
-                businessException.ajouterErreur(CodesResultatsDAL.LECTURE_CATEGORIE_ECHEC);
-                throw businessException;
-            }
-            return listeCategorie;
+        } catch (Exception e) {
+            e.printStackTrace();
+            BusinessException businessException = new BusinessException();
+            businessException.ajouterErreur(CodesResultatsDAL.LECTURE_CATEGORIE_ECHEC);
+            throw businessException;
         }
+        return listeCategorie;
+    }
 
     @Override
     public Categorie selectById (int id) throws BusinessException {
         Categorie categorie = null;
         try (Connection cnx = ConnectionProvider.getConnection()) {
-            PreparedStatement pstm = cnx.prepareStatement(SElECT_ALL);
+            PreparedStatement pstm = cnx.prepareStatement(SELECT_BY_ID);
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {
                 categorie = new Categorie();
                 categorie.setId(rs.getInt("id"));
                 categorie.setLibelle(rs.getString("libelle"));
             }
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             BusinessException businessException = new BusinessException();
             businessException.ajouterErreur(CodesResultatsDAL.LECTURE_CATEGORIE_ECHEC);
@@ -96,6 +114,40 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 
     @Override
     public void update (Categorie categorie) throws BusinessException {
+        try (Connection cnx = ConnectionProvider.getConnection()) {
 
+            PreparedStatement pstm = cnx.prepareStatement(UPDATE);
+
+            pstm.setInt(1, categorie.getId());
+            pstm.setString(2, categorie.getLibelle());
+
+            pstm.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            BusinessException businessException = new BusinessException();
+            businessException.ajouterErreur(CodesResultatsDAL.UPDATE_OBJET_ECHEC);
+            throw businessException;
+
+        }
+
+    }
+
+    public Categorie selectByLibelle (String libelle) throws BusinessException {
+        Categorie categorie = null;
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement pstm = cnx.prepareStatement(SELECT_BY_LIBELLE);
+            ResultSet rs = pstm.executeQuery();
+            if (rs.next()) {
+                categorie = new Categorie();
+                categorie.setId(rs.getInt("id"));
+                categorie.setLibelle(rs.getString("libelle"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            BusinessException businessException = new BusinessException();
+            businessException.ajouterErreur(CodesResultatsDAL.LECTURE_LIBELLE_ECHEC);
+            throw businessException;
+        }
+        return categorie;
     }
 }

@@ -22,8 +22,43 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 
     @Override
     public Retrait insert (Retrait retrait) throws BusinessException {
-        return null;
+        if (retrait == null) {
+            BusinessException businessException = new BusinessException();
+            businessException.ajouterErreur(CodesResultatsDAL.INSERT_OBJECT_NULL);
+            throw businessException;
+        }
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            try {
+                cnx.setAutoCommit(false);
+                PreparedStatement pstmt;
+                ResultSet rs;
+                pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
+                pstmt.setString(1, retrait.getRue());
+                pstmt.setString(2, retrait.getCp());
+                pstmt.setString(3, retrait.getVille());
+
+                pstmt.executeUpdate();
+
+                rs = pstmt.getGeneratedKeys();
+
+                if (rs.next()) {
+                    retrait.setId(rs.getInt(1));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                cnx.rollback();
+                throw e;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            BusinessException businessException = new BusinessException();
+            businessException.ajouterErreur(CodesResultatsDAL.INSERT_USER_ECHEC);
+            throw businessException;
+        }
+        return retrait;
     }
+
+
 // A modifier en fonction des méthodes utilisés dans ArticleDAO
 /*    @Override
     public void delete (Integer id) throws BusinessException {

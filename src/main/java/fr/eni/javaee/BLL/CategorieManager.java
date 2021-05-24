@@ -10,13 +10,17 @@ import java.util.List;
 public class CategorieManager {
     private static CategorieDAO categorieDAO = new CategorieDAOJdbcImpl();
     private static BusinessException businessException = new BusinessException();
+    private static String libelle;
+
 
     public CategorieManager () {
     }
 
     public static Categorie ajouterCategorie (Categorie categorie) throws BusinessException{
-        validerLibelle(categorie.getLibelle(), businessException);
-
+        if (libelle == null || libelle.trim().equals(""))
+        {
+            businessException.ajouterErreur(CodesResultatsBLL.REGLE_CATEGORIES_LIBELLE_ERREUR);
+        }
         if(!businessException.hasErreurs()) {
             categorieDAO.insert(categorie);
         }
@@ -37,7 +41,10 @@ public class CategorieManager {
     }
 
     public static void modifierCategorie(Categorie categorie) throws BusinessException {
-            validerLibelle(categorie.getLibelle(), businessException);
+        if (libelle == null || libelle.trim().equals(""))
+        {
+            businessException.ajouterErreur(CodesResultatsBLL.REGLE_CATEGORIES_LIBELLE_ERREUR);
+        }
 
             if (!businessException.hasErreurs()) {
                 categorieDAO.update(categorie);
@@ -45,18 +52,15 @@ public class CategorieManager {
     }
 
     public static void supprimerCategorie(Categorie categorie) throws BusinessException {
-        validerLibelle(categorie.getLibelle(), businessException);
+        if (libelle == null || libelle.trim().equals(""))
+        {
+            businessException.ajouterErreur(CodesResultatsBLL.REGLE_CATEGORIES_LIBELLE_ERREUR);
+        }
 
         if (!businessException.hasErreurs()) {
             categorieDAO.delete(categorie.getId());
         }
     }
 
-    private static void validerLibelle(String libelle, BusinessException businessException){
-        if (libelle == null || libelle.trim().equals(""))
-        {
-            businessException.ajouterErreur(CodesResultatsBLL.REGLE_CATEGORIES_LIBELLE_ERREUR);
-        }
-    }
 
 }

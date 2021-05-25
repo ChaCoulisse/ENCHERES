@@ -43,7 +43,7 @@
         <br/>
 
         <label for="prenom">Prénom<span class="requis">*</span></label>
-        <input type="text" id="Prenom" name="Prenom" value="<c:out value="${utilisateur.prenom}"/>" size="20"
+        <input type="text" id="prenom" name="prenom" value="<c:out value="${utilisateur.prenom}"/>" size="20"
                maxlength="20"/>
         <span class="erreur">${form.erreurs['prenom']}</span>
         <br/>
@@ -54,8 +54,8 @@
         <span class="erreur">${form.erreurs['email']}</span>
         <br/>
 
-        <label for="téléphone">Téléphone<span class="requis">*</span></label>
-        <input type="text" id="Téléphone" name="Téléphone" value="<c:out value="${utilisateur.telephone}"/>" size="15"
+        <label for="telephone">Téléphone<span class="requis">*</span></label>
+        <input type="text" id="telephone" name="telephone" value="<c:out value="${utilisateur.telephone}"/>" size="15"
                maxlength="10"/>
         <span class="erreur">${form.erreurs['telephone']}</span>
         <br/>

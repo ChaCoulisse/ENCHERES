@@ -9,37 +9,8 @@
         <param-value>/META-INF/context.xml</param-value>
     </context-param>
     <welcome-file-list>
-            <welcome-file>JSPConnexion.jsp</welcome-file>
+            <welcome-file>inscription</welcome-file>
             <welcome-file></welcome-file>
             <welcome-file></welcome-file>
     </welcome-file-list>
-    <!--
-           <servlet>
-               <servlet-name>ServletConnexion</servlet-name>
-               <servlet-class>fr.eni.javaee.servlet.ServletConnexion</servlet-class>
-           </servlet>
-           <servlet-mapping>
-               <servlet-name>ServletConnexion</servlet-name>
-               <url-pattern>/connexion</url-pattern>
-           </servlet-mapping>
-
-               <servlet>
-                   <servlet-name>Inscription</servlet-name>
-                   <jsp-file>/WEB-INF/InscriptionUtilisateur.jsp</jsp-file>
-               </servlet>
-               <servlet-mapping>
-                   <servlet-name>Inscription</servlet-name>
-                   <url-pattern>/Inscription</url-pattern>
-               </servlet-mapping>
-
-               <servlet>
-                   <servlet-name>AccueilDeconnecte</servlet-name>
-                   <jsp-file>/WEB-INF/accueilDeconnecte.jsp</jsp-file>
-               </servlet>
-               <servlet-mapping>
-                   <servlet-name>AccueilDeconnecte</servlet-name>
-                   <url-pattern>/JSPAccueilDeconnecte</url-pattern>
-               </servlet-mapping>
-
-           -->
 </web-app>

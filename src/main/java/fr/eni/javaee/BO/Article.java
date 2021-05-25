@@ -1,26 +1,24 @@
 package fr.eni.javaee.BO;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.List;
+import java.util.Date;
 
 public class Article implements Serializable {
     private Integer id;
     private String nom;
     private String description;
-    private LocalDate debutEnchere;
-    private LocalDate finEnchere;
+    private Date debutEnchere;
+    private Date finEnchere;
     private Integer prixInitial;
     private Integer prixVente;
-    private List<Article> articlesVendus;
-    private List<Article> articlesAchetes;
-    private Utilisateurs vendeur;
+    private Integer vendeur;
     private EtatVente etatVente;
+    private Integer categorie;
 
     public Article () {
     }
 
-    public Article (Integer id, String nom, String description, LocalDate debutEnchere, LocalDate finEnchere, Integer prixInitial, Integer prixVente, List<Article> articlesVendus, List<Article> articlesAchetes, Utilisateurs vendeur, EtatVente etatVente) {
+    public Article(Integer id, String nom, String description, Date debutEnchere, Date finEnchere, Integer prixInitial, Integer prixVente, Integer vendeur, EtatVente etatVente, Integer categorie) {
         this.id = id;
         this.nom = nom;
         this.description = description;
@@ -28,13 +26,12 @@ public class Article implements Serializable {
         this.finEnchere = finEnchere;
         this.prixInitial = prixInitial;
         this.prixVente = prixVente;
-        this.articlesVendus = articlesVendus;
-        this.articlesAchetes = articlesAchetes;
         this.vendeur = vendeur;
         this.etatVente = etatVente;
+        this.categorie = categorie;
     }
 
-    public Article (String nom, String description, LocalDate debutEnchere, LocalDate finEnchere, Integer prixInitial, Integer prixVente, Utilisateurs vendeur) {
+    public Article(String nom, String description, Date debutEnchere, Date finEnchere, Integer prixInitial, Integer prixVente, Integer vendeur, Integer categorie) {
         this.nom = nom;
         this.description = description;
         this.debutEnchere = debutEnchere;
@@ -42,106 +39,104 @@ public class Article implements Serializable {
         this.prixInitial = prixInitial;
         this.prixVente = prixVente;
         this.vendeur = vendeur;
+        this.categorie = categorie;
+        this.etatVente = EtatVente.CREE;
     }
 
-    public Integer getId () {
+    public Integer getId() {
         return id;
     }
 
-    public void setId (Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getNom () {
+    public String getNom() {
         return nom;
     }
 
-    public void setNom (String nom) {
+    public void setNom(String nom) {
         this.nom = nom;
     }
 
-    public String getDescription () {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription (String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public LocalDate getDebutEnchere () {
+    public Date getDebutEnchere() {
         return debutEnchere;
     }
 
-    public void setDebutEnchere (LocalDate debutEnchere) {
+    public void setDebutEnchere(Date debutEnchere) {
         this.debutEnchere = debutEnchere;
     }
 
-    public LocalDate getFinEnchere () {
+    public Date getFinEnchere() {
         return finEnchere;
     }
 
-    public void setFinEnchere (LocalDate finEnchere) {
+    public void setFinEnchere(Date finEnchere) {
         this.finEnchere = finEnchere;
     }
 
-    public Integer getPrixInitial () {
+    public Integer getPrixInitial() {
         return prixInitial;
     }
 
-    public void setPrixInitial (Integer prixInitial) {
+    public void setPrixInitial(Integer prixInitial) {
         this.prixInitial = prixInitial;
     }
 
-    public Integer getPrixVente () {
+    public Integer getPrixVente() {
         return prixVente;
     }
 
-    public void setPrixVente (Integer prixVente) {
+    public void setPrixVente(Integer prixVente) {
         this.prixVente = prixVente;
     }
 
-    public List<Article> getArticlesVendus () {
-        return articlesVendus;
-    }
-
-    public void setArticlesVendus (List<Article> articlesVendus) {
-        this.articlesVendus = articlesVendus;
-    }
-
-    public List<Article> getArticlesAchetes () {
-        return articlesAchetes;
-    }
-
-    public void setArticlesAchetes (List<Article> articlesAchetes) {
-        this.articlesAchetes = articlesAchetes;
-    }
-
-    public Utilisateurs getVendeur () {
+    public Integer getVendeur() {
         return vendeur;
     }
 
-    public void setVendeur (Utilisateurs vendeur) {
+    public void setVendeur(Integer vendeur) {
         this.vendeur = vendeur;
     }
 
-    public void setEtatVente (EtatVente etatVente) {
+    public EtatVente getEtatVente() {
+        return etatVente;
+    }
+
+    public void setEtatVente(EtatVente etatVente) {
         this.etatVente = etatVente;
     }
 
+    public Integer getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(Integer categorie) {
+        this.categorie = categorie;
+    }
+
     @Override
-    public String toString () {
+    public String toString() {
         return "Article{" +
-                "numArticle=" + id +
+                "id=" + id +
                 ", nom='" + nom + '\'' +
                 ", description='" + description + '\'' +
                 ", debutEnchere=" + debutEnchere +
                 ", finEnchere=" + finEnchere +
                 ", prixInitial=" + prixInitial +
                 ", prixVente=" + prixVente +
-                ", articlesVendus=" + articlesVendus +
-                ", articlesAchetes=" + articlesAchetes +
-                ",vendeur=" + vendeur +
-                ",etatVente=" + etatVente +
+                ", vendeur=" + vendeur +
+                ", etatVente=" + etatVente +
+                ", categorie=" + categorie +
                 '}';
     }
 }
+

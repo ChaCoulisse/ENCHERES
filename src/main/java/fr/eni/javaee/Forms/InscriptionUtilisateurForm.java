@@ -131,9 +131,11 @@ public class InscriptionUtilisateurForm {
     }
 
     private void validationPseudo (String pseudo) throws Exception {
-        if (pseudo != null && pseudo.matches("\"#^[a-z0-9_]+$#\"")) {
-            throw new Exception("Le pseudo ne contenir que des lettres et chiffres");
-        } else {
+        if (pseudo != null){
+            if(pseudo.matches("\"#^[a-z0-9_]+$#\"")) {
+                throw new Exception("Le pseudo ne contenir que des lettres et chiffres");
+            }
+        } else{
             throw new Exception("Merci d'entrer un pseudo");
         }
     }

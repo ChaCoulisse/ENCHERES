@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet("/inscription")
 public class ServletInscriptionUtilisateur extends HttpServlet {
@@ -31,7 +32,6 @@ public class ServletInscriptionUtilisateur extends HttpServlet {
     public void doPost (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         /* Préparation de l'objet formulaire */
         InscriptionUtilisateurForm form = new InscriptionUtilisateurForm();
-
         Utilisateurs utilisateur = form.inscrireUtilisateur(request);
 
 

@@ -7,16 +7,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
+import java.util.List;
 
 public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
 
 
-    public static final String INSERT_USER = "INSERT INTO " +
-            "UTILISATEURS(pseudo, nom, prenom, email, telephone, rue, code_postal, ville ,mot_de_passe, credit, administrateur)" +
-            " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-    public static final String DELETE_USER = "DELETE FROM UTILISATEURS WHERE id = ? ";
-    //public static final String SElECT_ALL = "SELECT * FROM UTILISATEURS";
+    public static final String INSERT_LISTE = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, rue, cp, ville ,mdp, credit) VALUES (?,?,?,?,?,?,?,?,?,?)";
+    public static final String SElECT_ALL = "SELECT * FROM UTILISATEURS";
     public static final String SELECT_BY_ID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?";
     public static final String SELECT_BY_PSEUDO ="SELECT * FROM UTILISATEURS WHERE pseudo = ?";
 
@@ -32,11 +30,14 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
         }
 
         try(Connection cnx = ConnectionProvider.getConnection()) {
+
+
             try {
                 cnx.setAutoCommit(false);
                 PreparedStatement pstmt;
-                if (utilisateurs.getId() == null) {
-                    pstmt = cnx.prepareStatement(INSERT_USER);
+                ResultSet rs;
+                if (utilisateurs.getId() == 0) {
+                    pstmt = cnx.prepareStatement(INSERT_LISTE, PreparedStatement.RETURN_GENERATED_KEYS);
                     pstmt.setString(1, utilisateurs.getPseudo());
                     pstmt.setString(2, utilisateurs.getNom());
                     pstmt.setString(3, utilisateurs.getPrenom());
@@ -47,12 +48,13 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
                     pstmt.setString(8, utilisateurs.getVille());
                     pstmt.setString(9, utilisateurs.getMdp());
                     pstmt.setInt(10, utilisateurs.getCredit());
-                    if(!utilisateurs.isAdministrateur()){
-                        pstmt.setInt(11,0);
-                    } else {
-                        pstmt.setInt(11, 1);
+                    pstmt.executeUpdate();
+                    rs = (ResultSet) pstmt.getGeneratedKeys();
+                    if (rs.next()) {
+                        utilisateurs.setId(rs.getInt(1));
                     }
                     pstmt.executeUpdate();
+                    rs.close();
                     pstmt.close();
                 }
                 cnx.commit();
@@ -67,6 +69,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
             businessException.ajouterErreur(CodesResultatsDAL.INSERT_USER_ECHEC);
             throw businessException;
         }
+
     }
 
     @Override
@@ -146,16 +149,16 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
             boolean premiereLigne = true;
             while (rs.next()){
                 if (premiereLigne){
-                    listeUtilisateur.setId(rs.getInt("no_utilisateur"));
+                    listeUtilisateur.setId(rs.getInt("id"));
                     listeUtilisateur.setPseudo(rs.getString("pseudo"));
                     listeUtilisateur.setNom(rs.getString("nom"));
                     listeUtilisateur.setPrenom(rs.getString("prenom"));
                     listeUtilisateur.setEmail(rs.getString("email"));
                     listeUtilisateur.setTelephone(rs.getString("telephone"));
                     listeUtilisateur.setRue(rs.getString("rue"));
-                    listeUtilisateur.setCp(rs.getString("code_postal"));
+                    listeUtilisateur.setCp(rs.getString("cp"));
                     listeUtilisateur.setVille(rs.getString("ville"));
-                    listeUtilisateur.setMdp(rs.getString("mot_de_passe"));
+                    listeUtilisateur.setMdp(rs.getString("mdp"));
                     listeUtilisateur.setCredit(rs.getInt("credit"));
                     listeUtilisateur.setAdministrateur(rs.getBoolean("administrateur"));
 
@@ -170,4 +173,14 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
         }
         return listeUtilisateur;
     }
+
+    /*
+    @java.lang.Override
+    public void delete(Integer id) {
+    }
+    @java.lang.Override
+    public List<Utilisateurs> selectAll() {
+        return null;
+    }
+     */
 }

@@ -12,4 +12,7 @@ public interface EnchereDAO {
     public List<Enchere> selectAll() throws BusinessException;
     public Enchere selectById(int id) throws BusinessException;
     public void update (Enchere enchere)throws BusinessException;
+    public List<Enchere> selectByUtilisateur(int id) throws BusinessException;
+    public List<Enchere> selectByGagnerParUtilisateur (int id) throws BusinessException;
+    public List<Enchere> selectAllByArticle(int id) throws BusinessException;
 }

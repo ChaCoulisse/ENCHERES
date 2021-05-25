@@ -21,17 +21,7 @@ public class UtilisateurManager {
 
 
     public static Utilisateurs inscriptionUtilisateur(Utilisateurs utilisateur) throws BusinessException{
-            validerInformations(utilisateur);
 
-        if(!businessException.hasErreurs()) {
-            utilisateursDAO.insert(utilisateur);
-        }else {
-            throw businessException;
-        }
-        return utilisateur;
-    }
-
-    private static void validerInformations (Utilisateurs utilisateur) {
         if (utilisateur.getPseudo().trim().equals("") || utilisateur.getNom().trim().equals("")
                 || utilisateur.getPrenom().trim().equals("") || utilisateur.getEmail().trim().equals("")
                 || utilisateur.getRue().trim().equals("") || utilisateur.getCp().trim().equals("")
@@ -39,6 +29,13 @@ public class UtilisateurManager {
 
             businessException.ajouterErreur(CodesResultatsBLL.REGLE_UTILISATEURS_VALIDATION_ERREUR);
         }
+
+        if(!businessException.hasErreurs()) {
+            utilisateursDAO.insert(utilisateur);
+        }else {
+            throw businessException;
+        }
+        return utilisateur;
     }
 
     public void delete(Integer id) throws BusinessException {}

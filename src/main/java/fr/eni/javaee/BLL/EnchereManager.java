@@ -8,6 +8,7 @@ import fr.eni.javaee.DAL.EnchereDAOJdbcImpl;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDateTime;
+import java.util.List;
 
 public class EnchereManager {
     private static EnchereDAO enchereDAO = new EnchereDAOJdbcImpl();
@@ -35,5 +36,16 @@ public class EnchereManager {
         return enchere;
     }
 
+    public static List<Enchere> selectionnerAllEnchere() throws BusinessException{
+        return enchereDAO.selectAll();
+    }
+
+    public static Enchere selectionnerEnchereParId (int id) throws BusinessException {
+        return enchereDAO.selectById(id);
+    }
+
+    public static List<Enchere> selectionnerEnchereParArticle(int id) throws BusinessException{
+        return enchereDAO.selectAllByArticle(id);
+    }
 
 }

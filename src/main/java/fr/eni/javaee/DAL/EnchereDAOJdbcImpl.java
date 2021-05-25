@@ -16,10 +16,13 @@ public class EnchereDAOJdbcImpl implements EnchereDAO{
 
     public static final String INSERT = "INSERT into ENCHERES(id_utilisateur,id_article,date_enchere,montant_enchere,gagner) VALUES (?,?,?,?,?)";
     public static final String SElECT_ALL = "SELECT * FROM ENCHERES";
-    public static final String SELECT_BY_ID = "SELECT * FROM ENCHERES WHERE id_article = ?";
+    public static final String SELECT_BY_ID = "SELECT * FROM ENCHERES WHERE id= ?";
     private static final String UPDATE = "UPDATE ENCHERES SET id_utilisateur= ?, id_article = ?,date_enchere = ?, " +
                                              "montant_enchere= ?, gagner=? WHERE id=?";
     private static final String DELETE = "DELETE ENCHERES WHERE id=?";
+    private static final String SELECT_BY_UTILISATEUR = "SELECT * FROM ENCHERES WHERE id_utilisateur=?";
+    private static final String SELECT_BY_GAGNER_PAR_UTILISATEUR = "SELECT * FROM ENCHERES WHERE id_utilisateur = ? AND gagner=?";
+    private static final String SELECT_ALL_BY_ARTICLE = " SELECT * FROM ENCHERES WHERE id_article = ?";
 
 
     @Override
@@ -147,5 +150,92 @@ public class EnchereDAOJdbcImpl implements EnchereDAO{
             throw businessException;
 
         }
+    }
+
+    @Override
+    public List<Enchere> selectByUtilisateur (int id) throws BusinessException {
+        List<Enchere> listeEncheres = new ArrayList<>();
+
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement pstm = cnx.prepareStatement(SELECT_BY_UTILISATEUR);
+            pstm.setInt(1,id);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+               Enchere enchere = new Enchere();
+                enchere.setId(rs.getInt("id"));
+                enchere.setId_utilisateur(rs.getInt("id_utilisateur"));
+                enchere.setId_article(rs.getInt("id_article"));
+                enchere.setDateEnchere(rs.getDate("date_enchere").toLocalDate());
+                enchere.setMontantEnchere(rs.getInt("montant_enchere"));
+                enchere.setGagner(rs.getBoolean("gagner"));
+
+                listeEncheres.add(enchere);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            BusinessException businessException = new BusinessException();
+            businessException.ajouterErreur(CodesResultatsDAL.LECTURE_ENCHERE_ECHEC);
+            throw businessException;
+        }
+        return listeEncheres;
+
+    }
+
+    @Override
+    public List<Enchere> selectByGagnerParUtilisateur (int id) throws BusinessException {
+        List<Enchere> listeEncheres = new ArrayList<>();
+
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement pstm = cnx.prepareStatement(SELECT_BY_GAGNER_PAR_UTILISATEUR);
+            pstm.setInt(1,id);
+            pstm.setBoolean(2,true);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                Enchere enchere = new Enchere();
+                enchere.setId(rs.getInt("id"));
+                enchere.setId_utilisateur(rs.getInt("id_utilisateur"));
+                enchere.setId_article(rs.getInt("id_article"));
+                enchere.setDateEnchere(rs.getDate("date_enchere").toLocalDate());
+                enchere.setMontantEnchere(rs.getInt("montant_enchere"));
+                enchere.setGagner(rs.getBoolean("gagner"));
+
+                listeEncheres.add(enchere);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            BusinessException businessException = new BusinessException();
+            businessException.ajouterErreur(CodesResultatsDAL.LECTURE_ENCHERE_ECHEC);
+            throw businessException;
+        }
+        return listeEncheres;
+
+    }
+
+    @Override
+    public List<Enchere> selectAllByArticle (int id) throws BusinessException {
+        List<Enchere> listeEncheres = new ArrayList<>();
+
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement pstm = cnx.prepareStatement(SELECT_ALL_BY_ARTICLE);
+            pstm.setInt(1,id);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                Enchere enchere = new Enchere();
+                enchere.setId(rs.getInt("id"));
+                enchere.setId_utilisateur(rs.getInt("id_utilisateur"));
+                enchere.setId_article(rs.getInt("id_article"));
+                enchere.setDateEnchere(rs.getDate("date_enchere").toLocalDate());
+                enchere.setMontantEnchere(rs.getInt("montant_enchere"));
+                enchere.setGagner(rs.getBoolean("gagner"));
+
+                listeEncheres.add(enchere);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            BusinessException businessException = new BusinessException();
+            businessException.ajouterErreur(CodesResultatsDAL.LECTURE_ENCHERE_ECHEC);
+            throw businessException;
+        }
+        return listeEncheres;
     }
 }

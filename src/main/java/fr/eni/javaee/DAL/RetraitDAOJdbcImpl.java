@@ -1,7 +1,6 @@
 package fr.eni.javaee.DAL;
 
 import fr.eni.javaee.BO.Article;
-import fr.eni.javaee.BO.Categorie;
 import fr.eni.javaee.BO.Retrait;
 import fr.eni.javaee.BusinessException;
 
@@ -13,11 +12,11 @@ import java.util.List;
 
 public class RetraitDAOJdbcImpl implements RetraitDAO {
 
-    public static final String INSERT = "INSERT into RETRAITS(id_article, rue, code_postal, ville) VALUES (?,?,?,?)";
-    public static final String SElECT_ALL = "SELECT * FROM RETRAITS";
-    public static final String SELECT_BY_ID = "SELECT * FROM RETRAITS WHERE id_article = ?";
-    private static final String UPDATE = "UPDATE RETRAITS SET rue = ?, code_postal = ?, ville = ? WHERE id_article=?";
-    private static final String DELETE = "DELETE RETRAITS WHERE id_article=?";
+    public static final String INSERT = "INSERT into RETRAITS(id_article, rue, code_postal, ville) VALUES (?,?,?,?);";
+    public static final String SElECT_ALL = "SELECT * FROM RETRAITS;";
+    public static final String SELECT_BY_ID = "SELECT * FROM RETRAITS WHERE id_article = ?;";
+    private static final String UPDATE = "UPDATE RETRAITS SET rue = ?, code_postal = ?, ville = ? WHERE id_article=?;";
+    private static final String DELETE = "DELETE RETRAITS WHERE id_article=?;";
 
 
     @Override
@@ -42,7 +41,7 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
                 rs = pstmt.getGeneratedKeys();
 
                 if (rs.next()) {
-                    retrait.setId(rs.getInt(1));
+                    retrait.setId_article(rs.getInt(1));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -58,7 +57,6 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
         return retrait;
     }
 
-
     @Override
     public List<Retrait> selectAll () throws BusinessException {
         List<Retrait> listeRetraits = new ArrayList<Retrait>();
@@ -66,7 +64,7 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
             PreparedStatement pstm = cnx.prepareStatement(SElECT_ALL);
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
-                listeRetraits.add(new Retrait(rs.getInt("id"), rs.getString("rue"),rs.getString("code_postal"),rs.getString("ville")));
+                listeRetraits.add(new Retrait(rs.getInt("id"), rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,7 +83,7 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {
                 retrait = new Retrait();
-                retrait.setId(rs.getInt("id"));
+                retrait.setId_article(rs.getInt("id"));
                 retrait.setRue(rs.getString("rue"));
                 retrait.setCp(rs.getString("code_postal"));
                 retrait.setVille(rs.getString("ville"));
@@ -106,7 +104,7 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 
             PreparedStatement pstm = cnx.prepareStatement(UPDATE);
 
-            pstm.setInt(1, retrait.getId());
+            pstm.setInt(1, retrait.getId_article());
             pstm.setString(2, retrait.getRue());
             pstm.setString(2, retrait.getCp());
             pstm.setString(2, retrait.getVille());
@@ -118,19 +116,16 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
             throw businessException;
 
         }
-
     }
+
     // A modifier en fonction des méthodes utilisés dans ArticleDAO
-/*    @Override
+
+   @Override
     public void delete (Integer id) throws BusinessException {
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(DELETE);
             pstmt.setInt(1, id);
-            Retrait retrait =selectById(id);
-            List<Article> listeArticle = ArticleDAO.getByRetrait(retrait);
-            for (Article articleVendu : listeArticle) {
-                articleVendu.setLieuRetrait(null);
-            }
+
             pstmt.executeUpdate();
 
         } catch (Exception e) {
@@ -140,6 +135,7 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
             throw businessException;
 
         }
-    }*/
     }
+
+}
 

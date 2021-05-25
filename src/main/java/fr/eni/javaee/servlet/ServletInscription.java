@@ -1,25 +1,34 @@
-package fr.eni.javaee.brouillon;
+package fr.eni.javaee.servlet;
 
 import fr.eni.javaee.BO.Utilisateurs;
 import fr.eni.javaee.BusinessException;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import fr.eni.javaee.BLL.UtilisateurManager;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet("/inscription")
 public class ServletInscription extends HttpServlet {
+
+    public ServletInscription () {
+        super();
+    }
+
     @Override
     protected void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/InscriptionUtilisateur.jsp");
-        rd.forward(request, response);
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/InscriptionUtilisateur.jsp");
+        rd.forward(request,response);
     }
 
     @Override
     protected void doPost (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/InscriptionUtilisateur.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/InscriptionUtilisateur.jsp");
 
         Utilisateurs utilisateur = new Utilisateurs();
 
@@ -69,6 +78,7 @@ public class ServletInscription extends HttpServlet {
                 rd.forward(request, response);
 
             } else if (confirmation.equals(mdp)) {
+
 
                 utilisateur = new Utilisateurs(pseudo, nom, prenom, email, telephone, rue, cp, ville, mdp);
                 utilisateur = UtilisateurManager.inscriptionUtilisateur(utilisateur);

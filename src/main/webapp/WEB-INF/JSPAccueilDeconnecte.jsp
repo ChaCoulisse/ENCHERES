@@ -2,6 +2,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="java.util.Locale" %>
+<%@ page import="fr.eni.javaee.BLL.CategorieManager" %>
+<%@ page import="fr.eni.javaee.BO.Categorie" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -22,11 +24,10 @@
     </select>
 
     <div class="search-box">
-        <input type="text" class="search" placeholder="What are we looking for today?">
+        <input type="text" class="search" placeholder="Que recherchez-vous ?">
     </div>
 
     <button type="submit" class="search-btn">
-        <i class="fas fa-search"></i>
     </button>
 </div>
 
@@ -44,7 +45,7 @@
                 <h1><a href="<%=request.getContextPath()%>/detailVente?idArticle=<%=article.getId() %>"><%=article.getNom()%></a></h1>
             </div>
             <div class="card-img-container">
-                <img src="img/tournevis.jpeg" alt="">
+                <img src="" alt="">
             </div>
             <div class="card-body">
                 <div class="prix"><i class="fas fa-tag"></i><%=article.getPrixInitial()%></div>

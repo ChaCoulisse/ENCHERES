@@ -6,8 +6,9 @@
 <html>
 <head>
     <meta charset="utf-8"/>
+    <link href="<c:url value="../WEB-CONTENT/stylesheet.css"/>" rel="stylesheet">
     <title>Inscription</title>
-    <link type="text/css" rel="stylesheet" href="form.css"/>
+    <link type="text/css" rel="stylesheet" href="/WEB-CONTENT/form.css"/>
 </head>
 <body class="container">
 
@@ -25,6 +26,13 @@
         </div>
     </c:if>
 
+<c:choose>
+
+    <c:when test="${!empty sessionScope.pseudo}">
+        <p>Vous êtes déjà connecté</p>
+
+    </c:when>
+    <c:otherwise>
 <form method="post" action="${pageContext.request.contextPath}/inscription">
     <fieldset>
         <legend>Mon inscription</legend>
@@ -41,7 +49,7 @@
         <br/>
 
         <label for="prenom">Prénom<span class="requis">*</span></label>
-        <input type="text" id="Prenom" name="Prenom" value="<c:out value="${utilisateur.prenom}"/>" size="20"
+        <input type="text" id="prenom" name="prenom" value="<c:out value="${utilisateur.prenom}"/>" size="20"
                maxlength="20"/>
         <br/>
 
@@ -50,8 +58,8 @@
                maxlength="50"/>
         <br/>
 
-        <label for="téléphone">Téléphone<span class="requis">*</span></label>
-        <input type="text" id="Téléphone" name="Téléphone" value="<c:out value="${utilisateur.telephone}"/>" size="15"
+        <label for="telephone">Téléphone<span class="requis">*</span></label>
+        <input type="text" id="telephone" name="telephone" value="<c:out value="${utilisateur.telephone}"/>" size="15"
                maxlength="10"/>
         <br/>
 
@@ -82,10 +90,11 @@
         <input type="submit" value="Inscription" class="sansLabel"/>
         <br/>
 
-        <p class="${empty erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
-
     </fieldset>
 </form>
+    </c:otherwise>
+</c:choose>
+
 
 <a href="/connexion"> Se connecter à son compte</a>
 <footer>

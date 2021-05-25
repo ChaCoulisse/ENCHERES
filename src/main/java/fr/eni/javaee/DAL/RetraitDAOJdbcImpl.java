@@ -31,18 +31,14 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
                 cnx.setAutoCommit(false);
                 PreparedStatement pstmt;
                 ResultSet rs;
-                pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
-                pstmt.setString(1, retrait.getRue());
-                pstmt.setString(2, retrait.getCp());
-                pstmt.setString(3, retrait.getVille());
+                pstmt = cnx.prepareStatement(INSERT);
+                pstmt.setInt(1, retrait.getId_article());
+                pstmt.setString(2, retrait.getRue());
+                pstmt.setString(3, retrait.getCp());
+                pstmt.setString(4, retrait.getVille());
 
                 pstmt.executeUpdate();
 
-                rs = pstmt.getGeneratedKeys();
-
-                if (rs.next()) {
-                    retrait.setId_article(rs.getInt(1));
-                }
             } catch (Exception e) {
                 e.printStackTrace();
                 cnx.rollback();
@@ -64,7 +60,7 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
             PreparedStatement pstm = cnx.prepareStatement(SElECT_ALL);
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
-                listeRetraits.add(new Retrait(rs.getInt("id"), rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville")));
+                listeRetraits.add(new Retrait(rs.getInt("id_article"), rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,7 +79,7 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {
                 retrait = new Retrait();
-                retrait.setId_article(rs.getInt("id"));
+                retrait.setId_article(rs.getInt("id_article"));
                 retrait.setRue(rs.getString("rue"));
                 retrait.setCp(rs.getString("code_postal"));
                 retrait.setVille(rs.getString("ville"));
@@ -106,8 +102,8 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 
             pstm.setInt(1, retrait.getId_article());
             pstm.setString(2, retrait.getRue());
-            pstm.setString(2, retrait.getCp());
-            pstm.setString(2, retrait.getVille());
+            pstm.setString(3, retrait.getCp());
+            pstm.setString(4, retrait.getVille());
             pstm.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

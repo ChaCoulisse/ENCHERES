@@ -1,6 +1,6 @@
 package fr.eni.javaee.servlet;
 
-import fr.eni.javaee.BO.Utilisateurs;
+import fr.eni.javaee.BO.Utilisateur;
 import fr.eni.javaee.BusinessException;
 import fr.eni.javaee.BLL.UtilisateurManager;
 import jakarta.servlet.RequestDispatcher;
@@ -30,7 +30,7 @@ public class ServletInscription extends HttpServlet {
     protected void doPost (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/InscriptionUtilisateur.jsp");
 
-        Utilisateurs utilisateur = new Utilisateurs();
+        Utilisateur utilisateur = new Utilisateur();
 
         try {
 
@@ -80,7 +80,7 @@ public class ServletInscription extends HttpServlet {
             } else if (confirmation.equals(mdp)) {
 
 
-                utilisateur = new Utilisateurs(pseudo, nom, prenom, email, telephone, rue, cp, ville, mdp);
+                utilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, cp, ville, mdp);
                 utilisateur = UtilisateurManager.inscriptionUtilisateur(utilisateur);
 
                 if (utilisateur != null) {

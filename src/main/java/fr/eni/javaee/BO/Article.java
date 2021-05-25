@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Article implements Serializable {
-    private Integer id;
+    private Integer id_article;
     private String nom;
     private String description;
     private Date debutEnchere;
@@ -18,8 +18,8 @@ public class Article implements Serializable {
     public Article () {
     }
 
-    public Article(Integer id, String nom, String description, Date debutEnchere, Date finEnchere, Integer prixInitial, Integer prixVente, Integer vendeur, EtatVente etatVente, Integer categorie) {
-        this.id = id;
+    public Article(Integer id_article, String nom, String description, Date debutEnchere, Date finEnchere, Integer prixInitial, Integer prixVente, Integer vendeur, EtatVente etatVente, Integer categorie) {
+        this.id_article = id_article;
         this.nom = nom;
         this.description = description;
         this.debutEnchere = debutEnchere;
@@ -43,12 +43,12 @@ public class Article implements Serializable {
         this.etatVente = EtatVente.CREE;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getId_article() {
+        return id_article;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId_article(Integer id_article) {
+        this.id_article = id_article;
     }
 
     public String getNom() {
@@ -126,7 +126,7 @@ public class Article implements Serializable {
     @Override
     public String toString() {
         return "Article{" +
-                "id=" + id +
+                "id=" + id_article +
                 ", nom='" + nom + '\'' +
                 ", description='" + description + '\'' +
                 ", debutEnchere=" + debutEnchere +

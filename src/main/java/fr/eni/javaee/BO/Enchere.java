@@ -4,18 +4,16 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public class Enchere implements Serializable {
-    private Integer id;
     private Integer id_utilisateur;
     private Integer id_article;
     private LocalDate dateEnchere;
     private Integer montantEnchere;
-    private boolean gagner=false;
+    private Boolean gagner=false;
 
     public Enchere () {
     }
 
-    public Enchere (Integer id, Integer id_utilisateur, Integer id_article, LocalDate dateEnchere, Integer montantEnchere, boolean gagner) {
-        this.id = id;
+    public Enchere(Integer id_utilisateur, Integer id_article, LocalDate dateEnchere, Integer montantEnchere, boolean gagner) {
         this.id_utilisateur = id_utilisateur;
         this.id_article = id_article;
         this.dateEnchere = dateEnchere;
@@ -63,14 +61,6 @@ public class Enchere implements Serializable {
         this.montantEnchere = montantEnchere;
     }
 
-    public Integer getId () {
-        return id;
-    }
-
-    public void setId (Integer id) {
-        this.id = id;
-    }
-
     public boolean isGagner () {
         return gagner;
     }
@@ -82,7 +72,6 @@ public class Enchere implements Serializable {
     @Override
     public String toString () {
         return "Enchere{" +
-                "id=" + id +
                 ", id_utilisateur=" + id_utilisateur +
                 ", id_article=" + id_article +
                 ", dateEnchere=" + dateEnchere +

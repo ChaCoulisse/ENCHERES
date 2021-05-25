@@ -1,19 +1,15 @@
 package fr.eni.javaee.DAL;
 
-import fr.eni.javaee.BO.Article;
-import fr.eni.javaee.BO.Utilisateurs;
+import fr.eni.javaee.BO.Utilisateur;
 import fr.eni.javaee.BusinessException;
-
-import java.io.PrintWriter;
-import java.util.List;
 
 public interface UtilisateursDAO {
 
-    public Utilisateurs insert(Utilisateurs utilisateurs) throws BusinessException; // pour l'inscription
+    public Utilisateur insert(Utilisateur utilisateur) throws BusinessException; // pour l'inscription
     public void delete(Integer id) throws BusinessException; // admin
-    //public List<Utilisateurs> selectAll() throws BusinessException; //admin
-    public Utilisateurs selectById(int id) throws BusinessException;
-    public Utilisateurs selectByPseudo(String pseudo) throws BusinessException;
+    //public List<Utilisateur> selectAll() throws BusinessException; //admin
+    public Utilisateur selectById(int id) throws BusinessException;
+    public Utilisateur selectByPseudo(String pseudo) throws BusinessException;
 
     }
 

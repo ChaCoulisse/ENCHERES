@@ -1,5 +1,5 @@
 <!-- Page connecté -->
-<%@page import="fr.eni.javaee.BO.Utilisateurs"%>
+<%@page import="fr.eni.javaee.BO.Utilisateur"%>
 <% if( session.getAttribute("UtilisateurConnecte") != null){ %>
 <!--Navbar-->
 
@@ -13,7 +13,7 @@
     </a>
 
     <div class="navbar-links">
-        <%Utilisateurs utilisateurConnecte = (Utilisateurs) session.getAttribute("UtilisateurConnecte"); %>
+        <%Utilisateur utilisateurConnecte = (Utilisateur) session.getAttribute("UtilisateurConnecte"); %>
         <ul>
             <li><a href="<%=request.getContextPath()%>/accueilConnecte">Enchères  <i class="fas fa-bullhorn"></i></a></li>
             <li><a href="<%=request.getContextPath()%>/vendre">Vendre  <i class="fas fa-hand-holding-usd"></i></a></li>

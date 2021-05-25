@@ -11,12 +11,12 @@ import java.util.List;
 
 
 public class CategorieDAOJdbcImpl implements CategorieDAO {
-    public static final String INSERT = "INSERT into CATEGORIES VALUES (?)";
-    public static final String SElECT_ALL = "SELECT * FROM CATEGORIES";
-    public static final String SELECT_BY_ID = "SELECT * FROM CATEGORIES WHERE id = ?";
-    private static final String UPDATE = "UPDATE CATEGORIES SET libelle = ? WHERE id=?";
-    private static final String DELETE = "DELETE CATEGORIES WHERE id=?";
-    private static final String SELECT_BY_LIBELLE = "SELECT * FROM CATEGORIES WHERE libelle=?";
+    public static final String INSERT = "INSERT into CATEGORIES(libelle) VALUES (?);";
+    public static final String SElECT_ALL = "SELECT * FROM CATEGORIES;";
+    public static final String SELECT_BY_ID = "SELECT * FROM CATEGORIES WHERE id_categorie = ?;";
+    private static final String UPDATE = "UPDATE CATEGORIES SET libelle = ? WHERE id_categorie=?;";
+    private static final String DELETE = "DELETE CATEGORIES WHERE id_categorie=?;";
+    private static final String SELECT_BY_LIBELLE = "SELECT * FROM CATEGORIES WHERE libelle=?;";
 
 
     @Override
@@ -81,7 +81,7 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
             PreparedStatement pstm = cnx.prepareStatement(SElECT_ALL);
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
-                listeCategorie.add(new Categorie(rs.getInt("id"), rs.getString("libelle")));
+                listeCategorie.add(new Categorie(rs.getInt("id_categorie"), rs.getString("libelle")));
             }
         } catch (Exception e) {
             e.printStackTrace();

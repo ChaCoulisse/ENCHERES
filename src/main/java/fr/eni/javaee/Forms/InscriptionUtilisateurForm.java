@@ -1,6 +1,6 @@
 package fr.eni.javaee.Forms;
 
-import fr.eni.javaee.BO.Utilisateurs;
+import fr.eni.javaee.BO.Utilisateur;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.HashMap;
@@ -42,7 +42,7 @@ public class InscriptionUtilisateurForm {
         return resultat;
     }
 
-    public Utilisateurs inscrireUtilisateur (HttpServletRequest request) {
+    public Utilisateur inscrireUtilisateur (HttpServletRequest request) {
         String pseudo = request.getParameter(CHAMP_PSEUDO);
         String nom = request.getParameter(CHAMP_NOM);
         String prenom = request.getParameter(CHAMP_PRENOM);
@@ -54,7 +54,7 @@ public class InscriptionUtilisateurForm {
         String mdp = request.getParameter(CHAMP_MDP);
         String confirmation = request.getParameter(CHAMP_CONF);
 
-        Utilisateurs utilisateur = new Utilisateurs();
+        Utilisateur utilisateur = new Utilisateur();
 
         try {
             validationPseudo(pseudo);

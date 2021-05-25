@@ -1,6 +1,5 @@
 package fr.eni.javaee.DAL;
 
-import com.oracle.wls.shaded.org.apache.regexp.RE;
 import fr.eni.javaee.BO.*;
 import fr.eni.javaee.BusinessException;
 
@@ -10,30 +9,33 @@ import java.util.List;
 import java.util.Date;
 
 public class ArticleDAOJdbcImpl implements ArticleDAO{
-
+    // requete pour la methode insert
     public static final String INSERT_ARTICLE = "INSERT INTO " +
-            "ARTICLES(no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie)" +
+            "ARTICLES(id_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, id_utilisateur, id_categorie)" +
             " VALUES (?,?,?,?,?,?,?,?,?);";
-    public static final String DELETE_ARTICLE = "DELETE FROM ARTICLES WHERE id = ? ";
+    // requete pour la methode delete
+    public static final String DELETE_ARTICLE = "DELETE FROM ARTICLES WHERE id_article = ?;";
 
-    public static final String SELECT_BY_ID ="SELECT * FROM ARTICLE WHERE id_article = ?";
-
-    public static final String UPDATE_ARTICLE= "UPDATE ARTICLE SET" +
+    public static final String SELECT_BY_ID ="SELECT * FROM ARTICLES WHERE id_article = ?";
+    // pour la methode update
+    public static final String UPDATE_ARTICLE= "UPDATE ARTICLES SET" +
             " nom_article = ?, description = ?, date_debut_encheres = ?," +
             " date_fin_encheres = ?, prix_initial = ?, prix_vente = ?," +
-            " no_utilisateur = ?, no_categorie WHER no_article = ?";
+            " id_utilisateur = ?, id_categorie WHERE id_article = ?";
 
-    public static final String SELECT_ALL_ARTICLES = "SELECT * FROM ARTICLES WHERE no_utilisateur = ? ;";
-    public static final String SELECT_ALL_ARTICLES_CREES = "SELECT * FROM ARTICLES WHERE date_debut_encheres >= SYSDATETIME() AND no_utilisateur = ?";
-    public static final String SELECT_ALL_ARTICLES_EN_COURS = "SELECT * FROM ARTICLES WHERE SYSDATETIME() >=  date_debut_encheres AND SYSDATETIME() <= date_fin_encheres AND no_utilisateur = ?";
-    public static final String SELECT_ALL_ARTICLES_TERMINES = "SELECT * FROM ARTICLES WHERE date_fin_encheres <= SYSDATETIME() AND no_utilisateur = ?";
-    public static final String SELECT_BY_CATEGORIE_ARTICLES = "SELECT * FROM ARTICLES, CATEGORIES WHERE articles.no_categorie=categories.no_categorie  AND no_utilisateur = ? AND categorie = ?";
-    public static final String SELECT_BY_CATEGORIE_ARTICLES_CREES = "SELECT * FROM ARTICLES, CATEGORIES WHERE articles.no_categorie=categories.no_categorie AND date_debut_encheres >= SYSDATETIME() AND no_utilisateur = ? AND nom_article LIKE ?  AND categorie = ?;";
-    public static final String SELECT_BY_CATEGORIE_ARTICLES_EN_COURS = "SELECT * FROM ARTICLES, CATEGORIES WHERE articles.no_categorie=categories.no_categorie AND SYSDATETIME() >=  date_debut_encheres AND SYSDATETIME() <= date_fin_encheres AND no_utilisateur = ? AND nom_article LIKE ? AND categorie = ?;";
-    public static final String SELECT_BY_CATEGORIE_ARTICLES_TERMINES = "SELECT * FROM ARTICLES, CATEGORIES WHERE articles.no_categorie=categories.no_categorie AND date_fin_encheres <= SYSDATETIME() AND no_utilisateur = ? AND nom_article.nom LIKE ? AND categorie = ?;";
+    //pour la methode getByVendeurCategorieEtat
+    public static final String SELECT_ALL_ARTICLES = "SELECT * FROM ARTICLES WHERE id_utilisateur = ? ;";
+    public static final String SELECT_ALL_ARTICLES_CREES = "SELECT * FROM ARTICLES WHERE date_debut_encheres >= SYSDATETIME() AND id_utilisateur = ?";
+    public static final String SELECT_ALL_ARTICLES_EN_COURS = "SELECT * FROM ARTICLES WHERE SYSDATETIME() >=  date_debut_encheres AND SYSDATETIME() <= date_fin_encheres AND id_utilisateur = ?";
+    public static final String SELECT_ALL_ARTICLES_TERMINES = "SELECT * FROM ARTICLES WHERE date_fin_encheres <= SYSDATETIME() AND id_utilisateur = ?";
+    public static final String SELECT_BY_CATEGORIE_ARTICLES = "SELECT * FROM ARTICLES, CATEGORIES WHERE articles.id_categorie=categories.id_categorie  AND id_utilisateur = ? AND categorie = ?";
+    public static final String SELECT_BY_CATEGORIE_ARTICLES_CREES = "SELECT * FROM ARTICLES, CATEGORIES WHERE articles.id_categorie=categories.id_categorie AND date_debut_encheres >= SYSDATETIME() AND id_utilisateur = ? AND nom_article LIKE ?  AND categorie = ?;";
+    public static final String SELECT_BY_CATEGORIE_ARTICLES_EN_COURS = "SELECT * FROM ARTICLES, CATEGORIES WHERE articles.id_categorie=categories.id_categorie AND SYSDATETIME() >=  date_debut_encheres AND SYSDATETIME() <= date_fin_encheres AND id_utilisateur = ? AND nom_article LIKE ? AND categorie = ?;";
+    public static final String SELECT_BY_CATEGORIE_ARTICLES_TERMINES = "SELECT * FROM ARTICLES, CATEGORIES WHERE articles.id_categorie=categories.id_categorie AND date_fin_encheres <= SYSDATETIME() AND id_utilisateur = ? AND nom_article LIKE ? AND categorie = ?;";
 
-    public static final String SELECT  = "SELECT * FROM ARTICLE WHERE SYSDATETIME() >=  date_debut_encheres AND SYSDATETIME() <= date_fin_encheres";
-    public static final String SELECT_CATEGORIE = "SELECT * FROM ARTICLE, CATEGORIE WHERE articles.no_categorie=categories.no_categorie AND libelle = ? AND SYSDATETIME() >=  date_debut_encheres AND SYSDATETIME() <= date_fin_encheres";
+    // pour la methode GetByNomCategorieEnCours
+    public static final String SELECT  = "SELECT * FROM ARTICLES WHERE SYSDATETIME() >=  date_debut_encheres AND SYSDATETIME() <= date_fin_encheres";
+    public static final String SELECT_CATEGORIE = "SELECT * FROM ARTICLES, CATEGORIES WHERE articles.id_categorie=categories.id_categorie AND libelle = ? AND SYSDATETIME() >=  date_debut_encheres AND SYSDATETIME() <= date_fin_encheres";
 
     @Override
     public void insert (Article article) throws BusinessException {
@@ -48,7 +50,7 @@ public class ArticleDAOJdbcImpl implements ArticleDAO{
             try {
                 cnx.setAutoCommit(false);
                 PreparedStatement pstmt;
-                if (article.getId() == null) {
+                if (article.getId_article() == null) {
                     pstmt = cnx.prepareStatement(INSERT_ARTICLE);
                     pstmt.setString(1, article.getNom());
                     pstmt.setString(2, article.getDescription());
@@ -97,7 +99,7 @@ public class ArticleDAOJdbcImpl implements ArticleDAO{
             boolean premiereLigne = true;
             while (rs.next()){
                 if (premiereLigne){
-                    article.setId(rs.getInt(1));
+                    article.setId_article(rs.getInt(1));
                     article.setNom(rs.getString(2));
                     article.setDescription(rs.getString(3));
                     article.setDebutEnchere(rs.getDate(4));
@@ -161,27 +163,27 @@ public class ArticleDAOJdbcImpl implements ArticleDAO{
             ResultSet rs = null;
             String rqt = "";
             if (categorie.equals("toutes")) {
-                if (listeEtatVente == null || listeEtatVente.size()==0) {
+                if (listeEtatVente == null && listeEtatVente.size()==0) {
                     pstmt = cnx.prepareStatement(SELECT_ALL_ARTICLES);
                 } else {
-                    for (int i = 0; i < listeArticles.size(); i++){
+                    for (int i = 0; i < listeEtatVente.size(); i++){
                         if(i>0){
                             rqt += " UNION ";
                         }
                         else if (listeEtatVente.get(i) == EtatVente.CREE) {
                             rqt += SELECT_ALL_ARTICLES_CREES;
                             if(ce_que_larticle_doit_contenir != null || ce_que_larticle_doit_contenir != ""){
-                                rqt += "LIKE ?";
+                                rqt += " AND nom_article LIKE ?";
                             }
                         } else if (listeEtatVente.get(i) == EtatVente.EN_COURS) {
                             rqt += SELECT_ALL_ARTICLES_EN_COURS;
                             if(ce_que_larticle_doit_contenir != null || ce_que_larticle_doit_contenir != ""){
-                                rqt += "LIKE ?";
+                                rqt += " AND nom_article LIKE ?";
                             }
                         } else if (listeEtatVente.get(i) == EtatVente.ENCHERES_TERMINEES) {
                             rqt += SELECT_ALL_ARTICLES_TERMINES;
                             if(ce_que_larticle_doit_contenir != null || ce_que_larticle_doit_contenir != ""){
-                                rqt += "LIKE ?";
+                                rqt += " AND nom_article LIKE ?";
                             }
                         }
                     }
@@ -215,7 +217,7 @@ public class ArticleDAOJdbcImpl implements ArticleDAO{
             //
 
             {
-                if (listeEtatVente == null || listeEtatVente.size()==0) {
+                if (listeEtatVente == null && listeEtatVente.size()==0) {
                     pstmt = cnx.prepareStatement(SELECT_BY_CATEGORIE_ARTICLES);
                 } else {
                     for (int i = 0; i < listeArticles.size(); i++){

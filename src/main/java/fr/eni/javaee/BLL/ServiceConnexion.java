@@ -1,6 +1,6 @@
 package fr.eni.javaee.BLL;
 
-import fr.eni.javaee.BO.Utilisateurs;
+import fr.eni.javaee.BO.Utilisateur;
 import fr.eni.javaee.BusinessException;
 import fr.eni.javaee.DAL.DAOFactory;
 import fr.eni.javaee.DAL.UtilisateursDAO;
@@ -17,10 +17,10 @@ public class ServiceConnexion {
 
         BusinessException businessException = new BusinessException();
 
-        Utilisateurs utilisateurs = new Utilisateurs();
-        utilisateurs = utilisateursDAO.selectByPseudo(pseudo);
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur = utilisateursDAO.selectByPseudo(pseudo);
 
-        if (utilisateurs != null && motDePasse != null && !motDePasse.equals(utilisateurs.getMdp())) {
+        if (utilisateur != null && motDePasse != null && !motDePasse.equals(utilisateur.getMdp())) {
             businessException.ajouterErreur(CodesResultatsBLL.REGLE_CONNEXION);
         }
 

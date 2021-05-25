@@ -42,7 +42,7 @@
         <% for(Article article : listeArticles) { %>
         <div class="card">
             <div class="card-header">
-                <h1><a href="<%=request.getContextPath()%>/detailVente?idArticle=<%=article.getId() %>"><%=article.getNom()%></a></h1>
+                <h1><a href="<%=request.getContextPath()%>/detailVente?idArticle=<%=article.getId_article() %>"><%=article.getNom()%></a></h1>
             </div>
             <div class="card-img-container">
                 <img src="" alt="">

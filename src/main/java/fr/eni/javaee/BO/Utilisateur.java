@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Utilisateurs implements Serializable {
-    private Integer id;
+public class Utilisateur implements Serializable {
+    private Integer id_utilisateur;
     private String pseudo;
     private String nom;
     private String prenom;
@@ -16,17 +16,17 @@ public class Utilisateurs implements Serializable {
     private String ville;
     private String mdp;
     private Integer credit;
-    private boolean administrateur;
+    private Boolean administrateur;
     private List<Article> articlesVendus;
     private List<Article> articlesAchetes;
     private List<Enchere> listeEncheres;
 
 
-    public Utilisateurs() {
+    public Utilisateur() {
     }
 
-    public Utilisateurs(Integer id, String pseudo, String nom, String prenom, String email, String telephone, String rue, String cp, String ville, String mdp, Integer credit, boolean administrateur, List<Article> articlesVendus, List<Article> articlesAchetes, List<Enchere> listeEncheres) {
-        this.id = id;
+    public Utilisateur(Integer id_utilisateur, String pseudo, String nom, String prenom, String email, String telephone, String rue, String cp, String ville, String mdp, Integer credit, boolean administrateur, List<Article> articlesVendus, List<Article> articlesAchetes, List<Enchere> listeEncheres) {
+        this.id_utilisateur = id_utilisateur;
         this.pseudo = pseudo;
         this.nom = nom;
         this.prenom = prenom;
@@ -43,8 +43,8 @@ public class Utilisateurs implements Serializable {
         this.listeEncheres = listeEncheres;
     }
 
-    public Utilisateurs(Integer id, String pseudo, String nom, String prenom, String email, String telephone, String rue, String cp, String ville, String mdp, Integer credit, boolean administrateur) {
-        this.id = id;
+    public Utilisateur(Integer id_utilisateur, String pseudo, String nom, String prenom, String email, String telephone, String rue, String cp, String ville, String mdp, Integer credit, boolean administrateur) {
+        this.id_utilisateur = id_utilisateur;
         this.pseudo = pseudo;
         this.nom = nom;
         this.prenom = prenom;
@@ -58,7 +58,7 @@ public class Utilisateurs implements Serializable {
         this.administrateur = administrateur;
     }
 
-    public Utilisateurs(String pseudo, String nom, String prenom, String email, String telephone, String rue, String cp, String ville, String mdp) {
+    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String cp, String ville, String mdp) {
         this.pseudo = pseudo;
         this.nom = nom;
         this.prenom = prenom;
@@ -74,12 +74,12 @@ public class Utilisateurs implements Serializable {
         this.listeEncheres = new ArrayList<Enchere>();
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getId_utilisateur() {
+        return id_utilisateur;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId_utilisateur(Integer id_utilisateur) {
+        this.id_utilisateur = id_utilisateur;
     }
 
     public String getPseudo() {
@@ -196,8 +196,8 @@ public class Utilisateurs implements Serializable {
 
     @Override
     public String toString() {
-        return "Utilisateurs{" +
-                "id=" + id +
+        return "Utilisateur{" +
+                "id=" + id_utilisateur +
                 ", pseudo='" + pseudo + '\'' +
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +

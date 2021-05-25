@@ -40,8 +40,8 @@ public class EnchereManager {
         return enchereDAO.selectAll();
     }
 
-    public static Enchere selectionnerEnchereParId (int id) throws BusinessException {
-        return enchereDAO.selectById(id);
+    public static List<Enchere> selectionnerParUtilisateur(int id) throws BusinessException{
+        return enchereDAO.selectByUtilisateur(id);
     }
 
     public static List<Enchere> selectionnerEnchereParArticle(int id) throws BusinessException{

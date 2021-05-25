@@ -1,28 +1,27 @@
 package fr.eni.javaee.DAL;
 
-import fr.eni.javaee.BO.Utilisateurs;
+import fr.eni.javaee.BO.Utilisateur;
 import fr.eni.javaee.BusinessException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
 
 
-    public static final String INSERT_LISTE = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, rue, cp, ville ,mdp, credit) VALUES (?,?,?,?,?,?,?,?,?,?)";
-    public static final String SElECT_ALL = "SELECT * FROM UTILISATEURS";
-    public static final String SELECT_BY_ID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?";
-    public static final String SELECT_BY_PSEUDO ="SELECT * FROM UTILISATEURS WHERE pseudo = ?";
+    public static final String INSERT_LISTE = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, rue, cp, ville ,mdp, credit) VALUES (?,?,?,?,?,?,?,?,?,?);";
+    public static final String SElECT_ALL = "SELECT * FROM UTILISATEURS;";
+    public static final String SELECT_BY_ID = "SELECT * FROM UTILISATEURS WHERE id_utilisateur = ?;";
+    public static final String SELECT_BY_PSEUDO ="SELECT * FROM UTILISATEURS WHERE pseudo = ?;";
+    public static final String DELETE_USER = "DELETE FROM UTILISATEURS WHERE id_utilisateur = ?;";
 
 
     @Override
-    public void insert(Utilisateurs utilisateurs) throws BusinessException{
+    public Utilisateur insert(Utilisateur utilisateur) throws BusinessException{
 
-        if(utilisateurs==null)
+        if(utilisateur ==null)
         {
             BusinessException businessException = new BusinessException();
             businessException.ajouterErreur(CodesResultatsDAL.INSERT_OBJECT_NULL);
@@ -36,22 +35,22 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
                 cnx.setAutoCommit(false);
                 PreparedStatement pstmt;
                 ResultSet rs;
-                if (utilisateurs.getId() == 0) {
+                if (utilisateur.getId_utilisateur() == 0) {
                     pstmt = cnx.prepareStatement(INSERT_LISTE, PreparedStatement.RETURN_GENERATED_KEYS);
-                    pstmt.setString(1, utilisateurs.getPseudo());
-                    pstmt.setString(2, utilisateurs.getNom());
-                    pstmt.setString(3, utilisateurs.getPrenom());
-                    pstmt.setString(4, utilisateurs.getEmail());
-                    pstmt.setString(5, utilisateurs.getTelephone());
-                    pstmt.setString(6, utilisateurs.getRue());
-                    pstmt.setString(7, utilisateurs.getCp());
-                    pstmt.setString(8, utilisateurs.getVille());
-                    pstmt.setString(9, utilisateurs.getMdp());
-                    pstmt.setInt(10, utilisateurs.getCredit());
+                    pstmt.setString(1, utilisateur.getPseudo());
+                    pstmt.setString(2, utilisateur.getNom());
+                    pstmt.setString(3, utilisateur.getPrenom());
+                    pstmt.setString(4, utilisateur.getEmail());
+                    pstmt.setString(5, utilisateur.getTelephone());
+                    pstmt.setString(6, utilisateur.getRue());
+                    pstmt.setString(7, utilisateur.getCp());
+                    pstmt.setString(8, utilisateur.getVille());
+                    pstmt.setString(9, utilisateur.getMdp());
+                    pstmt.setInt(10, utilisateur.getCredit());
                     pstmt.executeUpdate();
                     rs = (ResultSet) pstmt.getGeneratedKeys();
                     if (rs.next()) {
-                        utilisateurs.setId(rs.getInt(1));
+                        utilisateur.setId_utilisateur(rs.getInt(1));
                     }
                     pstmt.executeUpdate();
                     rs.close();
@@ -69,14 +68,14 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
             businessException.ajouterErreur(CodesResultatsDAL.INSERT_USER_ECHEC);
             throw businessException;
         }
-
+        return utilisateur;
     }
 
     @Override
     public void delete (Integer id) {
         try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(DELETE_USER);
-            pstmt.setInt(0,id);
+            pstmt.setInt(1,id);
             pstmt.executeUpdate();
             pstmt.close();
         } catch (SQLException throwables) {
@@ -86,13 +85,13 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
 
     @Override
     /*
-    public List<Utilisateurs> selectAll() throws BusinessException {
-        List<Utilisateurs> listeUtilisateurs = new ArrayList<Utilisateurs>();
+    public List<Utilisateur> selectAll() throws BusinessException {
+        List<Utilisateur> listeUtilisateurs = new ArrayList<Utilisateur>();
         try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstm = cnx.prepareStatement(SElECT_ALL);
             ResultSet rs = pstm.executeQuery();
             while (rs.next()){
-                listeUtilisateurs.add(new Utilisateurs(rs.getInt("id"), rs.getString("pseudo"), rs.getString("nom"),rs.getString("prenom"),
+                listeUtilisateurs.add(new Utilisateur(rs.getInt("id"), rs.getString("pseudo"), rs.getString("nom"),rs.getString("prenom"),
                         rs.getString("email"),rs.getString("telephone"),rs.getString("rue"),rs.getString("cp"),rs.getString("ville"),rs.getString("mdp"),rs.getInt("credit"),rs.getBoolean("administrateur")));
             }
 
@@ -106,8 +105,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
     }
    */
 
-    public Utilisateurs selectById(int id) throws BusinessException{
-        Utilisateurs listeUtilisateur = new Utilisateurs();
+    public Utilisateur selectById(int id) throws BusinessException{
+        Utilisateur utilisateur = new Utilisateur();
         try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_BY_ID);
             pstmt.setInt(1,id);
@@ -115,18 +114,18 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
             boolean premiereLigne = true;
             while (rs.next()){
                 if (premiereLigne){
-                    listeUtilisateur.setId(rs.getInt("id"));
-                    listeUtilisateur.setPseudo(rs.getString("pseudo"));
-                    listeUtilisateur.setNom(rs.getString("nom"));
-                    listeUtilisateur.setPrenom(rs.getString("prenom"));
-                    listeUtilisateur.setEmail(rs.getString("email"));
-                    listeUtilisateur.setTelephone(rs.getString("telephone"));
-                    listeUtilisateur.setRue(rs.getString("rue"));
-                    listeUtilisateur.setCp(rs.getString("cp"));
-                    listeUtilisateur.setVille(rs.getString("ville"));
-                    listeUtilisateur.setMdp(rs.getString("mdp"));
-                    listeUtilisateur.setCredit(rs.getInt("credit"));
-                    listeUtilisateur.setAdministrateur(rs.getBoolean("administrateur"));
+                    utilisateur.setId_utilisateur(rs.getInt("id_utilisateur"));
+                    utilisateur.setPseudo(rs.getString("pseudo"));
+                    utilisateur.setNom(rs.getString("nom"));
+                    utilisateur.setPrenom(rs.getString("prenom"));
+                    utilisateur.setEmail(rs.getString("email"));
+                    utilisateur.setTelephone(rs.getString("telephone"));
+                    utilisateur.setRue(rs.getString("rue"));
+                    utilisateur.setCp(rs.getString("code_postal"));
+                    utilisateur.setVille(rs.getString("ville"));
+                    utilisateur.setMdp(rs.getString("mot_de_passe"));
+                    utilisateur.setCredit(rs.getInt("credit"));
+                    utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
 
                 }
             }
@@ -137,11 +136,11 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
             businessException.ajouterErreur(CodesResultatsDAL.LECTURE_UTILISATEUR_ECHEC);
             throw businessException;
         }
-        return listeUtilisateur;
+        return utilisateur;
     }
 
-    public Utilisateurs selectByPseudo(String pseudo) throws BusinessException{
-        Utilisateurs listeUtilisateur = new Utilisateurs();
+    public Utilisateur selectByPseudo(String pseudo) throws BusinessException{
+        Utilisateur utilisateur = new Utilisateur();
         try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_BY_PSEUDO);
             pstmt.setString(1,pseudo);
@@ -149,18 +148,18 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
             boolean premiereLigne = true;
             while (rs.next()){
                 if (premiereLigne){
-                    listeUtilisateur.setId(rs.getInt("id"));
-                    listeUtilisateur.setPseudo(rs.getString("pseudo"));
-                    listeUtilisateur.setNom(rs.getString("nom"));
-                    listeUtilisateur.setPrenom(rs.getString("prenom"));
-                    listeUtilisateur.setEmail(rs.getString("email"));
-                    listeUtilisateur.setTelephone(rs.getString("telephone"));
-                    listeUtilisateur.setRue(rs.getString("rue"));
-                    listeUtilisateur.setCp(rs.getString("cp"));
-                    listeUtilisateur.setVille(rs.getString("ville"));
-                    listeUtilisateur.setMdp(rs.getString("mdp"));
-                    listeUtilisateur.setCredit(rs.getInt("credit"));
-                    listeUtilisateur.setAdministrateur(rs.getBoolean("administrateur"));
+                    utilisateur.setId_utilisateur(rs.getInt("id_utilisateur"));
+                    utilisateur.setPseudo(rs.getString("pseudo"));
+                    utilisateur.setNom(rs.getString("nom"));
+                    utilisateur.setPrenom(rs.getString("prenom"));
+                    utilisateur.setEmail(rs.getString("email"));
+                    utilisateur.setTelephone(rs.getString("telephone"));
+                    utilisateur.setRue(rs.getString("rue"));
+                    utilisateur.setCp(rs.getString("code_postal"));
+                    utilisateur.setVille(rs.getString("ville"));
+                    utilisateur.setMdp(rs.getString("mot_de_passe"));
+                    utilisateur.setCredit(rs.getInt("credit"));
+                    utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
 
                 }
             }
@@ -171,16 +170,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
             businessException.ajouterErreur(CodesResultatsDAL.LECTURE_UTILISATEUR_ECHEC);
             throw businessException;
         }
-        return listeUtilisateur;
+        return utilisateur;
     }
 
-    /*
-    @java.lang.Override
-    public void delete(Integer id) {
-    }
-    @java.lang.Override
-    public List<Utilisateurs> selectAll() {
-        return null;
-    }
-     */
 }

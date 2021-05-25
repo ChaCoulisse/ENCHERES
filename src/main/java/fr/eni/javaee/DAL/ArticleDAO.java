@@ -12,19 +12,15 @@ public interface ArticleDAO {
 
     public void insert(Article article) throws BusinessException;
     public void delete(Integer id) throws BusinessException;
-    public List<Article> selectAll() throws BusinessException;
     public Article selectById(int id) throws BusinessException;
     public void update (Article article)throws BusinessException;
-    public List<Article> getByVendeur(int id) throws BusinessException;
-    public List<Article> getByRetrait(Retrait retrait) throws BusinessException;
 
     public List<Article> getByVendeurNomCategorieEtat(int idVendeur,
                                              String ce_que_larticle_doit_contenir,
                                              String categorie,
-                                             EtatVente etatVente) throws BusinessException;
-    /*public List<Article> getByIdNomCategorieEtat(List<Enchere> listeEncheres,
-                                                      String ce_que_larticle_doit_contenir,
-                                                      String categorie,
-                                                      EtatVente etatVente) throws BusinessException;
-*/
+                                             List<EtatVente> listeEtatVente) throws BusinessException;
+
+    public List<Article> getByNomcategorieEnCours(String ce_que_larticle_doit_contenir,
+                                                  String categorie) throws BusinessException;
+
 }

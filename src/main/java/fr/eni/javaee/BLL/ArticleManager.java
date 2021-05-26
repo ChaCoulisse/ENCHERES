@@ -19,17 +19,19 @@ public class ArticleManager {
     public ArticleManager () {
     }
 
-    public static Article VendreArticle (Article article, Retrait retrait) throws BusinessException {
-        try {
-            DAOFactory.getArticleDAO().insert(article);
-            retrait.setId_article(article.getId_article());
-            retrait = DAOFactory.getRetraitDAO().insert(retrait);
-        } catch (BusinessException e) {
-            throw new BusinessException();
+    public static Article nouvelleVente(Article article) throws BusinessException{
+        if (article.getDebutEnchere() == null || article.getFinEnchere() == null || article.getDebutEnchere().isBefore(LocalDate.now()) ||
+                article.getFinEnchere().isBefore(article.getDebutEnchere()))
+        {
+            businessException.ajouterErreur(CodesResultatsBLL.REGLE_ENCHERES_DATE_ERREUR);
+        }
+        if (!businessException.hasErreurs()) {
+            articleDAO.insert(article);
+        } else {
+            throw businessException;
         }
         return article;
     }
-
 
     public static Article selectAllById (int id) throws BusinessException {
         return articleDAO.selectById(id);

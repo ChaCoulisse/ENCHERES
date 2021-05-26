@@ -9,4 +9,5 @@ public abstract class CodesResultatsBLL {
     public static final int REGLE_CATEGORIES_LIBELLE_ERREUR = 20003;
     public static final int REGLE_RETRAITS_ADRESSE_ERREUR = 20004;
     public static final int REGLE_ENCHERES_DATE_ERREUR = 20005 ;
+    public static final int REGLE_ARTICLES_ETAT_VENTE_ERREUR = 20006;
 }

@@ -12,7 +12,7 @@
 
 <!--Navbar-->
 <nav class="navbar">
-    <div class="marque">ENI-Enchères</div>
+    <div class="marque">ENI-ENCHERES</div>
 
     <a href="#" class="toggle-button">
         <span class="bar"></span>
@@ -21,7 +21,7 @@
     </a>
     <div class="navbar-links">
         <ul>
-<%--            <li><a href="">Enchères  </a></li>--%>
+            <%--            <li><a href="">Enchères  </a></li>--%>
             <li><a href="#">Vendre un article </a></li>
             <li><a href="/profil">Mon Profil  </a></li>
             <li><a href="/accueil">Deconnexion  </a></li>

@@ -40,7 +40,7 @@ body{
 }
 
 .navbar-links li:hover {
-    text-decoration-color: silver;
+    text-decoration-color: black;
     color : silver;
 }
 
@@ -75,12 +75,15 @@ body{
 }
 .recherche-box {
     display: inline-flex;
-    margin: 0px 5px;
+    margin: 0px 15px 5px 5px;
+    padding: 15px;
 }
 
 .recherche{
     font-size: 1rem;
-    display:flex;
+    display: inline-flex;
+    justify-content: right;
+    margin-left: 45px;
 }
 
 /* A modifier  */
@@ -91,15 +94,15 @@ li{
 
 .search-btn {
     background-color: #edf8f8;
-    color: #a4a9b7;
+    color: black;
     border: 2px darkgrey solid;
     border-radius: 10px;
-    margin: 10px;
+    margin: 15px;
     padding: 15px;
 }
 
 .search-btn:hover {
-    background-color:lightskyblue;
+    color:silver;
 }
 
 .search, .search-btn, .categories{
@@ -108,8 +111,9 @@ li{
 
 .categories {
     border-radius: 10px;
-    padding: 10px 5px;
+    padding: 15px;
 }
+
 
 .head {
     padding: 1px;
@@ -126,6 +130,7 @@ li{
     letter-spacing: -1px;
     line-height: 1;
     text-align: center;
+    margin-top: 25px ;
 }
 
 h2{
@@ -223,6 +228,8 @@ h2{
     border-radius: 3px;
     font-size: 15px;
     padding: 8px 10px;
+    display: block;
+
 }
 
 .input-field .input:focus {
@@ -263,11 +270,7 @@ h2{
     border: none;
 }
 
-input[type=radio] {
-    border: 1px solid #fff;
-    padding: 0.5em;
-    -webkit-appearance: none;
-}
+
 
 .retrait h1 {
     padding-top: 20px;
@@ -309,5 +312,5 @@ input[type=radio] {
 }
 .btnConnexion a {
     text-decoration: none;
-    color : black;
+    color: black;
 }

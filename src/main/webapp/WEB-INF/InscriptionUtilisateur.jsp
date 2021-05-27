@@ -5,97 +5,114 @@
 <html>
 <head>
     <meta charset="utf-8"/>
+    <link href="<c:url value="../WEB-CONTENT/stylesheet.css"/>" rel="stylesheet">
     <title>Inscription</title>
-    <link type="text/css" rel="stylesheet" href="form.css"/>
 </head>
 <body class="container">
-<!-- Si header commun, faire un fragment -->
-<%--<c:if test="${!empty listeCodesErreur}">--%>
-<%--    <div class="alert alert-danger" role="alert">--%>
-<%--        <strong>Erreur!</strong>--%>
-<%--        <ul>--%>
-<%--            <c:forEach var="code" items="${listeCodesErreur}">--%>
-<%--                <li>${LecteurMessage.getMessageErreur(code)}</li>--%>
-<%--            </c:forEach>--%>
-<%--        </ul>--%>
-<%--    </div>--%>
-<%--</c:if>--%>
 
 <form method="post" action="${pageContext.request.contextPath}/inscription">
-    <fieldset>
-        <legend>Mon inscription</legend>
-        <p>Vous pouvez vous inscrire via ce formulaire.</p>
+    <fieldset  class="fieldset">
+        <legend class="titre">Mon inscription</legend>
+        <p class="inscriptiontxt">Vous pouvez vous inscrire via ce formulaire.</p>
 
-        <label for="pseudo">Pseudo <span class="requis">*</span></label>
-        <input type="text" id="pseudo" name="pseudo" value="<c:out value="${utilisateur.pseudo}"/>" size="20"
-               maxlength="20"/>
-        <span class="erreur">${form.erreurs['pseudo']}</span>
-        <br/>
+        <section class="register-form">
+            <form class="register">
 
+                <div class="input-field">
+                    <label for="pseudo">Pseudo <span class="requis">*</span></label>
+                    <input type="text" id="pseudo" name="pseudo" value="<c:out value="${utilisateur.pseudo}"/>" size="20"
+                           maxlength="20"/>
+                    <span class="erreur">${form.erreurs['pseudo']}</span>
+                    <br/>
+                </div>
 
-        <label for="nom">Nom<span class="requis">*</span></label>
-        <input type="text" id="nom" name="nom" value="<c:out value="${utilisateur.nom}"/>" size="20" maxlength="60"/>
-        <span class="erreur">${form.erreurs['nom']}</span>
-        <br/>
+                <div class="input-field">
+                    <label for="nom">Nom<span class="requis">*</span></label>
+                    <input type="text" id="nom" name="nom" value="<c:out value="${utilisateur.nom}"/>" size="20" maxlength="60"/>
+                    <span class="erreur">${form.erreurs['nom']}</span>
+                    <br/>
+                </div>
 
-        <label for="prenom">Prénom<span class="requis">*</span></label>
-        <input type="text" id="prenom" name="prenom" value="<c:out value="${utilisateur.prenom}"/>" size="20"
-               maxlength="20"/>
-        <span class="erreur">${form.erreurs['prenom']}</span>
-        <br/>
+                <div class="input-field">
+                    <label for="prenom">Prénom<span class="requis">*</span></label>
+                    <input type="text" id="prenom" name="prenom" value="<c:out value="${utilisateur.prenom}"/>" size="20"
+                           maxlength="20"/>
+                    <span class="erreur">${form.erreurs['prenom']}</span>
+                    <br/>
+                </div>
 
-        <label for="email">Email<span class="requis">*</span></label>
-        <input type="text" id="email" name="email" value="<c:out value="${utilisateur.email}"/>" size="20"
-               maxlength="20"/>
-        <span class="erreur">${form.erreurs['email']}</span>
-        <br/>
+                <div class="input-field">
+                    <label for="email">Email<span class="requis">*</span></label>
+                    <input type="text" id="email" name="email" value="<c:out value="${utilisateur.email}"/>" size="20"
+                           maxlength="20"/>
+                    <span class="erreur">${form.erreurs['email']}</span>
+                    <br/>
+                </div>
 
-        <label for="telephone">Téléphone<span class="requis">*</span></label>
-        <input type="text" id="telephone" name="telephone" value="<c:out value="${utilisateur.telephone}"/>" size="20"
-               maxlength="20"/>
-        <span class="erreur">${form.erreurs['telephone']}</span>
-        <br/>
+                <div class="input-field">
+                    <label for="telephone">Téléphone<span class="requis">*</span></label>
+                    <input type="text" id="telephone" name="telephone" value="<c:out value="${utilisateur.telephone}"/>" size="20"
+                           maxlength="20"/>
+                    <span class="erreur">${form.erreurs['telephone']}</span>
+                    <br/>
+                </div>
 
-        <label for="rue">Rue <span class="requis">*</span></label>
-        <input type="text" id="rue" name="rue" value="<c:out value="${utilisateur.rue}"/>" size="20" maxlength="20"/>
-        <span class="erreur">${form.erreurs['rue']}</span>
-        <br/>
+                <div class="input-field">
+                    <label for="rue">Rue <span class="requis">*</span></label>
+                    <input type="text" id="rue" name="rue" value="<c:out value="${utilisateur.rue}"/>" size="20" maxlength="20"/>
+                    <span class="erreur">${form.erreurs['rue']}</span>
+                    <br/>
+                </div>
 
-        <label for="cp">Code postal</label>
-        <input type="text" id="cp" name="cp" value="<c:out value="${utilisateur.cp}"/>" size="20" maxlength="20"/>
-        <span class="erreur">${form.erreurs['cp']}</span>
-        <br/>
+                <div class="input-field">
+                    <label for="cp">Code postal</label>
+                    <input type="text" id="cp" name="cp" value="<c:out value="${utilisateur.cp}"/>" size="20" maxlength="20"/>
+                    <span class="erreur">${form.erreurs['cp']}</span>
+                    <br/>
+                </div>
 
-        <label for="ville">Ville</label>
-        <input type="text" id="ville" name="ville" value="<c:out value="${utilisateur.ville}"/>" size="20"
-               maxlength="20"/>
-        <span class="erreur">${form.erreurs['ville']}</span>
-        <br/>
+                <div class="input-field">
+                    <label for="ville">Ville</label>
+                    <input type="text" id="ville" name="ville" value="<c:out value="${utilisateur.ville}"/>" size="20"
+                           maxlength="20"/>
+                    <span class="erreur">${form.erreurs['ville']}</span>
+                    <br/>
+                </div>
 
-        <label for="mdp">Mot de passe <span class="requis">*</span></label>
-        <input type="password" id="mdp" name="mdp" value="" size="20" maxlength="20"/>
-        <span class="erreur">${form.erreurs['mdp']}</span>
+                <div class="input-field">
+                    <label for="mdp">Mot de passe <span class="requis">*</span></label>
+                    <input type="password" id="mdp" name="mdp" value="" size="20" maxlength="20"/>
+                    <span class="erreur">${form.erreurs['mdp']}</span>
+                    <br/>
+                </div>
 
-        <br/>
+                <div class="input-field">
+                    <label for="confirmation">Confirmation du mot de passe <span class="requis">*</span></label>
+                    <input type="password" id="confirmation" name="confirmation" value="" size="20" maxlength="20"/>
+                    <span class="erreur">${form.erreurs['confirmation']}</span>
+                    <br/>
+                </div>
+                <div class="btn-">
+                    <div>
+                        <button class="btn" type="submit">Cr&eacute;er Mon Compte
+                            <input type="submit" value="Inscription" class="sansLabel"/>
+                            <br/>
+                        </button>
+                    </div>
+                </div>
 
-        <label for="confirmation">Confirmation du mot de passe <span class="requis">*</span></label>
-        <input type="password" id="confirmation" name="confirmation" value="" size="20" maxlength="20"/>
-        <span class="erreur">${form.erreurs['confirmation']}</span>
-        <br/>
+                <p class="${empty erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
+                </div>
+                <div class="btnConnexion">
+                    <button class="btn" type="button"> <a href="/connexion">Se connecter</a></button>
+                </div>
+                </div>
 
-
-        <input type="submit" value="Inscription" class="sansLabel"/>
-        <br/>
-
-        <p class="${empty erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
-
+            </form>
+        </section>
     </fieldset>
 </form>
 
-<a href="Connexion.jsp"> Se connecter à son compte</a>
-<footer>
-    <!-- integrer fragment footer si commun  -->
-</footer>
 
 </body>
 </html>

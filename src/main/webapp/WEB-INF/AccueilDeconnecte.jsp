@@ -12,7 +12,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <nav class="navbar">
-    <div class="marque">ENI-Enchères</div>
+    <div class="marque">ENI-ENCHERES</div>
 
     <a href="#" class="toggle-button">
         <span class="bar"></span>

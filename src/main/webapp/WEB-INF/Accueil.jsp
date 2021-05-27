@@ -13,7 +13,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.">
     <link rel="stylesheet" href="../WEB-CONTENT/stylesheet.css">
-    <title>Accueuil ENI-Enchère</title>
+    <title>Accueuil ENI-ENCHERES</title>
     <script type="text/javascript">
         function grise(element_gris1,element_gris2,element_gris3,element_normal1,element_normal2,element_normal3) {
             var g1 = document.getElementById(element_gris1);

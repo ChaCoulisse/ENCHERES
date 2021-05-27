@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
 
 
-    public static final String INSERT_LISTE = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, rue, code_postal, ville ,mot_de_passe, credit) VALUES (?,?,?,?,?,?,?,?,?,?);";
+    public static final String INSERT_LISTE = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, rue, code_postal, ville ,mot_de_passe, credit,administrateur) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
     //public static final String SELECT_ALL = "SELECT * FROM UTILISATEURS;";
     public static final String SELECT_BY_ID = "SELECT * FROM UTILISATEURS WHERE id_utilisateur = ?;";
     public static final String SELECT_BY_PSEUDO ="SELECT * FROM UTILISATEURS WHERE pseudo = ?;";
@@ -35,7 +35,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
                 cnx.setAutoCommit(false);
                 PreparedStatement pstmt;
                 ResultSet rs;
-                if (utilisateur.getId_utilisateur() == 0) {
+                if (utilisateur.getId_utilisateur() == null) {
                     pstmt = cnx.prepareStatement(INSERT_LISTE, PreparedStatement.RETURN_GENERATED_KEYS);
                     pstmt.setString(1, utilisateur.getPseudo());
                     pstmt.setString(2, utilisateur.getNom());
@@ -46,7 +46,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
                     pstmt.setString(7, utilisateur.getCp());
                     pstmt.setString(8, utilisateur.getVille());
                     pstmt.setString(9, utilisateur.getMdp());
-                    pstmt.setInt(10, utilisateur.getCredit());
+                    pstmt.setInt(10, 1000);
+                    pstmt.setInt(11, 0);
                     pstmt.executeUpdate();
                     rs = pstmt.getGeneratedKeys();
                     if (rs.next()) {

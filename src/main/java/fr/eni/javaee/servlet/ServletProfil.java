@@ -30,7 +30,7 @@ public class ServletProfil extends HttpServlet {
             e.printStackTrace();
         }
         if (afficherUtilisateur != null && utilisateur != null){
-            request.getRequestDispatcher("../webapp/WEB-INF/JSPProfil.jsp").forward(request,response);
+            request.getRequestDispatcher("../webapp/WEB-INF/Profil.jsp").forward(request,response);
         }
     }
 

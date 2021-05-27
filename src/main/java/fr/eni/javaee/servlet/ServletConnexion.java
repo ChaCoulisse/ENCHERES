@@ -1,6 +1,8 @@
 package fr.eni.javaee.servlet;
 
 import fr.eni.javaee.BLL.ServiceConnexion;
+import fr.eni.javaee.BLL.UtilisateurManager;
+import fr.eni.javaee.BO.Utilisateur;
 import fr.eni.javaee.BusinessException;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -29,7 +31,8 @@ public class ServletConnexion extends HttpServlet {
         ServiceConnexion serviceConnexion = new ServiceConnexion();
         try {
             if(serviceConnexion.validerConnexion(pseudo,mdp)){
-                session.setAttribute("pseudo",request.getParameter("identifiant"));
+                Utilisateur utilisateur = UtilisateurManager.selectByPseudo(pseudo);
+                session.setAttribute("id_utilisateur",utilisateur.getId_utilisateur());
                 RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/Accueil.jsp");
                 rd.forward(request, response);
             }

@@ -64,7 +64,7 @@
             <div class="d-inline-flex p-2">Vendeur :</div>
         </div>
         <div class="form-group col-sm-2">
-            <div class="d-inline-flex p-2"><c:out value="${utilisateur.vendeur}"/></div>
+            <div class="d-inline-flex p-2"><c:out value="${utilisateur.pseudo}"/></div>
         </div>
     </div>
 </div>

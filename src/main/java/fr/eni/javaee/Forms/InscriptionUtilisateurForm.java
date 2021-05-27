@@ -129,7 +129,6 @@ public class InscriptionUtilisateurForm {
         } else {
             resultat = "Échec de la création de l'utilisateur.";
         }
-
         return utilisateur;
     }
 

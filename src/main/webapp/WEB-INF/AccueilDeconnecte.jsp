@@ -55,7 +55,7 @@
         <c:forEach items="${listeArticles}" var="article">
             <div class="card">
                 <div class="card-header">
-                    <h1><a href="/detailArticle"+"?"+"${id_article=article.id_article}">${article.nom}</a> </h1>
+                    <h1><a href="/DetailVente?id_article=${article.id_article}">${article.nom}</a> </h1>
                 </div>
                 <div class="card-img-container">
                     <img src="METTRE PHOTO PRODUIT" alt="">

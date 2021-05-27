@@ -35,7 +35,7 @@
 
 <c:choose>
 
-    <c:when test="${empty sessionScope.pseudo}">
+    <c:when test="${empty sessionScope.id_utilisateur}">
         <jsp:include page="AccueilDeconnecte.jsp">
             <jsp:param name="" value=""/>
         </jsp:include>

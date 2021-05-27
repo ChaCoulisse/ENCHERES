@@ -26,8 +26,7 @@ public class ServletDetailVente extends HttpServlet {
 
     @Override
     protected void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //int id_article = Integer.parseInt(request.getParameter("id_article"));
-        int id_article = 1;
+        int id_article = Integer.parseInt(request.getParameter("id_article"));
 
         // On récupère l'article avec id_article
         Article afficherArticle = null;
@@ -57,12 +56,6 @@ public class ServletDetailVente extends HttpServlet {
         DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
         String dateFinToString = dateFormat.format(afficherArticle.getFinEnchere());
 
-
-        /*******************************   A CONPLETER LA CONDITION ***********************************/
-        if (afficherArticle != null) {
-            request.getRequestDispatcher("/WEB-INF/DetailVente.jsp").forward(request, response);
-        }
-
         //On récupère le pseudo du vendeur grace à l'id_utilisateur (getVendeur()) dans la classe article
         Utilisateur utilisateur = null;
         try {
@@ -70,6 +63,12 @@ public class ServletDetailVente extends HttpServlet {
         } catch (BusinessException businessException) {
             businessException.printStackTrace();
         }
+
+        request.setAttribute("afficherArticle",afficherArticle);
+        request.setAttribute("afficherRetrait",afficherRetrait);
+        request.setAttribute("afficherRetrait",afficherRetrait);
+        request.setAttribute("utilisateur",utilisateur);
+
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/DetailVente.jsp");
         rd.forward(request,response);
 

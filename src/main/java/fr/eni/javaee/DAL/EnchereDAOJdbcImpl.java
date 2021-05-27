@@ -36,7 +36,6 @@ public class EnchereDAOJdbcImpl implements EnchereDAO{
                 cnx.setAutoCommit(false);
                 PreparedStatement pstmt;
                 ResultSet rs;
-
                 pstmt = cnx.prepareStatement(INSERT);
                 pstmt.setInt(1, enchere.getId_utilisateur());
                 pstmt.setInt(2, enchere.getId_article());

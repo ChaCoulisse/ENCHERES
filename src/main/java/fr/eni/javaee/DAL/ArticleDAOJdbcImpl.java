@@ -11,27 +11,27 @@ import java.util.Date;
 public class ArticleDAOJdbcImpl implements ArticleDAO{
     // requete pour la methode insert
     public static final String INSERT_ARTICLE = "INSERT INTO " +
-            "ARTICLES(id_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, id_utilisateur, id_categorie)" +
-            " VALUES (?,?,?,?,?,?,?,?,?);";
+            "ARTICLES(nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, id_utilisateur, id_categorie)" +
+            " VALUES (?,?,?,?,?,?,?,?);";
     // requete pour la methode delete
     public static final String DELETE_ARTICLE = "DELETE FROM ARTICLES WHERE id_article = ?;";
 
-    public static final String SELECT_BY_ID ="SELECT * FROM ARTICLES WHERE id_article = ?";
+    public static final String SELECT_BY_ID ="SELECT * FROM ARTICLES WHERE id_article = ?;";
     // pour la methode update
     public static final String UPDATE_ARTICLE= "UPDATE ARTICLES SET" +
             " nom_article = ?, description = ?, date_debut_encheres = ?," +
             " date_fin_encheres = ?, prix_initial = ?, prix_vente = ?," +
-            " id_utilisateur = ?, id_categorie WHERE id_article = ?";
+            " id_utilisateur = ?, id_categorie WHERE id_article = ?;";
 
     //pour la methode getByVendeurCategorieEtat
-    public static final String SELECT_ALL_ARTICLES = "SELECT * FROM ARTICLES WHERE id_utilisateur = ? ;";
+    public static final String SELECT_ALL_ARTICLES = "SELECT * FROM ARTICLES WHERE id_utilisateur = ? ORDER BY date_debut_encheres;";
     public static final String SELECT_ALL_ARTICLES_CREES = "SELECT * FROM ARTICLES WHERE date_debut_encheres >= SYSDATETIME() AND id_utilisateur = ?";
     public static final String SELECT_ALL_ARTICLES_EN_COURS = "SELECT * FROM ARTICLES WHERE SYSDATETIME() >=  date_debut_encheres AND SYSDATETIME() <= date_fin_encheres AND id_utilisateur = ?";
     public static final String SELECT_ALL_ARTICLES_TERMINES = "SELECT * FROM ARTICLES WHERE date_fin_encheres <= SYSDATETIME() AND id_utilisateur = ?";
-    public static final String SELECT_BY_CATEGORIE_ARTICLES = "SELECT * FROM ARTICLES, CATEGORIES WHERE articles.id_categorie=categories.id_categorie  AND id_utilisateur = ? AND categorie = ?";
-    public static final String SELECT_BY_CATEGORIE_ARTICLES_CREES = "SELECT * FROM ARTICLES, CATEGORIES WHERE articles.id_categorie=categories.id_categorie AND date_debut_encheres >= SYSDATETIME() AND id_utilisateur = ? AND nom_article LIKE ?  AND categorie = ?;";
-    public static final String SELECT_BY_CATEGORIE_ARTICLES_EN_COURS = "SELECT * FROM ARTICLES, CATEGORIES WHERE articles.id_categorie=categories.id_categorie AND SYSDATETIME() >=  date_debut_encheres AND SYSDATETIME() <= date_fin_encheres AND id_utilisateur = ? AND nom_article LIKE ? AND categorie = ?;";
-    public static final String SELECT_BY_CATEGORIE_ARTICLES_TERMINES = "SELECT * FROM ARTICLES, CATEGORIES WHERE articles.id_categorie=categories.id_categorie AND date_fin_encheres <= SYSDATETIME() AND id_utilisateur = ? AND nom_article LIKE ? AND categorie = ?;";
+    public static final String SELECT_BY_CATEGORIE_ARTICLES = "SELECT * FROM ARTICLES, CATEGORIES WHERE articles.id_categorie=categories.id_categorie  AND id_utilisateur = ? AND libelle = ? ORDER BY date_debut_encheres;";
+    public static final String SELECT_BY_CATEGORIE_ARTICLES_CREES = "SELECT * FROM ARTICLES, CATEGORIES WHERE articles.id_categorie=categories.id_categorie AND date_debut_encheres >= SYSDATETIME() AND id_utilisateur = ? AND libelle = ?";
+    public static final String SELECT_BY_CATEGORIE_ARTICLES_EN_COURS = "SELECT * FROM ARTICLES, CATEGORIES WHERE articles.id_categorie=categories.id_categorie AND SYSDATETIME() >=  date_debut_encheres AND SYSDATETIME() <= date_fin_encheres AND id_utilisateur = ? AND libelle = ?";
+    public static final String SELECT_BY_CATEGORIE_ARTICLES_TERMINES = "SELECT * FROM ARTICLES, CATEGORIES WHERE articles.id_categorie=categories.id_categorie AND date_fin_encheres <= SYSDATETIME() AND id_utilisateur = ? AND libelle = ?";
 
     // pour la methode GetByNomCategorieEnCours
     public static final String SELECT  = "SELECT * FROM ARTICLES WHERE SYSDATETIME() >=  date_debut_encheres AND SYSDATETIME() <= date_fin_encheres";
@@ -98,7 +98,6 @@ public class ArticleDAOJdbcImpl implements ArticleDAO{
             ResultSet rs = pstmt.executeQuery();
             boolean premiereLigne = true;
             while (rs.next()){
-                if (premiereLigne){
                     article.setId_article(rs.getInt(1));
                     article.setNom(rs.getString(2));
                     article.setDescription(rs.getString(3));
@@ -119,7 +118,7 @@ public class ArticleDAOJdbcImpl implements ArticleDAO{
                     } else if (date_actuelle.after(date_debut) && date_actuelle.before(date_fin)){
                         etatVente = EtatVente.EN_COURS;
                     }
-                }
+                    article.setEtatVente(etatVente);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -163,7 +162,7 @@ public class ArticleDAOJdbcImpl implements ArticleDAO{
             ResultSet rs = null;
             String rqt = "";
             if (categorie.equals("toutes")) {
-                if (listeEtatVente == null && listeEtatVente.size()==0) {
+                if (listeEtatVente == null || listeEtatVente.size()==0) {
                     pstmt = cnx.prepareStatement(SELECT_ALL_ARTICLES);
                 } else {
                     for (int i = 0; i < listeEtatVente.size(); i++){
@@ -172,30 +171,31 @@ public class ArticleDAOJdbcImpl implements ArticleDAO{
                         }
                         else if (listeEtatVente.get(i) == EtatVente.CREE) {
                             rqt += SELECT_ALL_ARTICLES_CREES;
-                            if(ce_que_larticle_doit_contenir != null || ce_que_larticle_doit_contenir != ""){
+                            if(ce_que_larticle_doit_contenir != null && !ce_que_larticle_doit_contenir.equals("")){
                                 rqt += " AND nom_article LIKE ?";
                             }
                         } else if (listeEtatVente.get(i) == EtatVente.EN_COURS) {
                             rqt += SELECT_ALL_ARTICLES_EN_COURS;
-                            if(ce_que_larticle_doit_contenir != null || ce_que_larticle_doit_contenir != ""){
+                            if(ce_que_larticle_doit_contenir != null && !ce_que_larticle_doit_contenir.equals("")){
                                 rqt += " AND nom_article LIKE ?";
                             }
                         } else if (listeEtatVente.get(i) == EtatVente.ENCHERES_TERMINEES) {
                             rqt += SELECT_ALL_ARTICLES_TERMINES;
-                            if(ce_que_larticle_doit_contenir != null || ce_que_larticle_doit_contenir != ""){
+                            if(ce_que_larticle_doit_contenir != null && !ce_que_larticle_doit_contenir.equals("")){
                                 rqt += " AND nom_article LIKE ?";
                             }
                         }
+                        rqt += " ORDER BY date_debut_encheres;";
                     }
                     pstmt = cnx.prepareStatement(rqt);
                 }
                 pstmt.setInt(1, idVendeur);
-                if(!(ce_que_larticle_doit_contenir == null) || !(ce_que_larticle_doit_contenir == "")) {
+                if(!(ce_que_larticle_doit_contenir == null) && !(ce_que_larticle_doit_contenir.equals(""))) {
                     pstmt.setString(2, "%" + ce_que_larticle_doit_contenir + "%");
                 }
                 rs = pstmt.executeQuery();
                 while (rs.next()) {
-                    Date date_actuelle = new Date();
+                    Date date_actuelle = new Date(System.currentTimeMillis());
                     Date date_debut = rs.getDate("date_debut_encheres");
                     Date date_fin = rs.getDate("date_fin_encheres");
                     EtatVente etatVente = null;
@@ -207,8 +207,8 @@ public class ArticleDAOJdbcImpl implements ArticleDAO{
                         etatVente = EtatVente.EN_COURS;
                     }
                     listeArticles.add(new Article(rs.getInt("no_article"), rs.getString("nom_article"),
-                            rs.getString("description"), (java.util.Date) rs.getDate("date_debut_encheres"),
-                            (java.util.Date) rs.getDate("date_fin_encheres"), rs.getInt("prix_initial"),
+                            rs.getString("description"), rs.getDate("date_debut_encheres"),
+                            rs.getDate("date_fin_encheres"), rs.getInt("prix_initial"),
                             rs.getInt("prix_vente"), rs.getInt("no_utilistateur"), etatVente , rs.getInt("no_categorie")));
                 }
             } else
@@ -217,40 +217,41 @@ public class ArticleDAOJdbcImpl implements ArticleDAO{
             //
 
             {
-                if (listeEtatVente == null && listeEtatVente.size()==0) {
+                if (listeEtatVente == null || listeEtatVente.size()==0) {
                     pstmt = cnx.prepareStatement(SELECT_BY_CATEGORIE_ARTICLES);
                 } else {
-                    for (int i = 0; i < listeArticles.size(); i++){
+                    for (int i = 0; i < listeEtatVente.size(); i++){
                         if(i>0){
                             rqt += " UNION ";
                         }
                         else if (listeEtatVente.get(i) == EtatVente.CREE) {
                             rqt += SELECT_BY_CATEGORIE_ARTICLES_CREES;
-                            if(ce_que_larticle_doit_contenir != null || ce_que_larticle_doit_contenir != ""){
+                            if(ce_que_larticle_doit_contenir != null && !ce_que_larticle_doit_contenir.equals("")){
                                 rqt += " AND nom_article LIKE ?";
                             }
                         } else if (listeEtatVente.get(i) == EtatVente.EN_COURS) {
                             rqt += SELECT_BY_CATEGORIE_ARTICLES_EN_COURS;
-                            if(ce_que_larticle_doit_contenir != null || ce_que_larticle_doit_contenir != ""){
+                            if(ce_que_larticle_doit_contenir != null && !ce_que_larticle_doit_contenir.equals("")){
                                 rqt += " AND nom_article LIKE ?";
                             }
                         } else if (listeEtatVente.get(i) == EtatVente.ENCHERES_TERMINEES) {
                             rqt += SELECT_BY_CATEGORIE_ARTICLES_TERMINES;
-                            if(ce_que_larticle_doit_contenir != null || ce_que_larticle_doit_contenir != ""){
+                            if(ce_que_larticle_doit_contenir != null && !ce_que_larticle_doit_contenir.equals("")){
                                 rqt += " AND nom_article LIKE ?";
                             }
                         }
+                        rqt += " ORDER BY date_debut_encheres;";
                     }
                     pstmt = cnx.prepareStatement(rqt);
                 }
                 pstmt.setInt(1, idVendeur);
                 pstmt.setString(2, categorie);
-                if(!(ce_que_larticle_doit_contenir == null) || !(ce_que_larticle_doit_contenir == "")) {
+                if(!(ce_que_larticle_doit_contenir == null) && !(ce_que_larticle_doit_contenir.equals(""))) {
                     pstmt.setString(3, "%" + ce_que_larticle_doit_contenir + "%");
                 }
                 rs = pstmt.executeQuery();
                 while (rs.next()) {
-                    Date date_actuelle = new Date();
+                    Date date_actuelle = new Date(System.currentTimeMillis());
                     Date date_debut = rs.getDate("date_debut_encheres");
                     Date date_fin = rs.getDate("date_fin_encheres");
                     EtatVente etatVente = null;
@@ -262,8 +263,8 @@ public class ArticleDAOJdbcImpl implements ArticleDAO{
                         etatVente = EtatVente.EN_COURS;
                     }
                     listeArticles.add(new Article(rs.getInt("no_article"), rs.getString("nom_article"),
-                            rs.getString("description"), (java.util.Date) rs.getDate("date_debut_encheres"),
-                            (java.util.Date) rs.getDate("date_fin_encheres"), rs.getInt("prix_initial"),
+                            rs.getString("description"), rs.getDate("date_debut_encheres"),
+                            rs.getDate("date_fin_encheres"), rs.getInt("prix_initial"),
                             rs.getInt("prix_vente"), rs.getInt("no_utilistateur"), etatVente , rs.getInt("no_categorie")));
                 }
             }
@@ -279,7 +280,7 @@ public class ArticleDAOJdbcImpl implements ArticleDAO{
     }
 
     @Override
-    public List<Article> getByNomcategorieEnCours(String ce_que_larticle_doit_contenir, String categorie) throws BusinessException {
+    public List<Article> getByNomcategorieEnCours(String ce_que_larticle_doit_contenir, String categorie) {
         List<Article> listeArticles = new ArrayList<Article>();
         try(Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstmt = null;
@@ -287,27 +288,27 @@ public class ArticleDAOJdbcImpl implements ArticleDAO{
             String rqt = "";
             if (!categorie.equals("toutes")) {
                 rqt = SELECT;
-                if(ce_que_larticle_doit_contenir != null || ce_que_larticle_doit_contenir != ""){
+                if(ce_que_larticle_doit_contenir != null && !ce_que_larticle_doit_contenir.equals("")){
                     rqt += " AND nom_article LIKE ? ;";
                 }
                 pstmt = cnx.prepareStatement(rqt);
 
             } else{
                 rqt = SELECT_CATEGORIE;
-                if(ce_que_larticle_doit_contenir != null || ce_que_larticle_doit_contenir != ""){
+                if(ce_que_larticle_doit_contenir != null && !ce_que_larticle_doit_contenir.equals("")){
                     rqt += " AND nom_article LIKE ? ;";
                 }
                 pstmt = cnx.prepareStatement(rqt);
                 pstmt.setString(1, categorie);
-                if(ce_que_larticle_doit_contenir != null || ce_que_larticle_doit_contenir != ""){
+                if(ce_que_larticle_doit_contenir != null && !ce_que_larticle_doit_contenir.equals("")){
                     pstmt.setString(2,"%"+ce_que_larticle_doit_contenir+"%");
                 }
             }
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 listeArticles.add(new Article(rs.getInt("no_article"), rs.getString("nom_article"),
-                        rs.getString("description"), (java.util.Date) rs.getDate("date_debut_encheres"),
-                        (java.util.Date) rs.getDate("date_fin_encheres"), rs.getInt("prix_initial"),
+                        rs.getString("description"),  rs.getDate("date_debut_encheres"),
+                        rs.getDate("date_fin_encheres"), rs.getInt("prix_initial"),
                         rs.getInt("prix_vente"), rs.getInt("no_utilistateur"), EtatVente.EN_COURS , rs.getInt("no_categorie")));
             }
         } catch (SQLException throwables) {

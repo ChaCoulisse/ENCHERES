@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet("/inscription")
+@WebServlet("/inscription1")
 public class ServletInscription extends HttpServlet {
 
     public ServletInscription () {

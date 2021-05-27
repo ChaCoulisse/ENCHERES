@@ -1,6 +1,5 @@
 package fr.eni.javaee.DAL;
 
-import fr.eni.javaee.BO.Categorie;
 import fr.eni.javaee.BO.Retrait;
 import fr.eni.javaee.BusinessException;
 

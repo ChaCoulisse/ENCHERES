@@ -1,9 +1,7 @@
 package fr.eni.javaee.DAL;
 
 import fr.eni.javaee.BO.Article;
-import fr.eni.javaee.BO.Enchere;
 import fr.eni.javaee.BO.EtatVente;
-import fr.eni.javaee.BO.Retrait;
 import fr.eni.javaee.BusinessException;
 
 import java.util.List;
@@ -21,6 +19,5 @@ public interface ArticleDAO {
                                              List<EtatVente> listeEtatVente) throws BusinessException;
 
     public List<Article> getByNomcategorieEnCours(String ce_que_larticle_doit_contenir,
-                                                  String categorie) throws BusinessException;
-
+                                                  String categorie);
 }

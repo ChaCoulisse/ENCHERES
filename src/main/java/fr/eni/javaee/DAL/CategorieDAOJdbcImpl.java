@@ -136,6 +136,7 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
         Categorie categorie = null;
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstm = cnx.prepareStatement(SELECT_BY_LIBELLE);
+            pstm.setString(1,libelle);
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {
                 categorie = new Categorie();

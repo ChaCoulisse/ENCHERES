@@ -1,8 +1,8 @@
 package fr.eni.javaee.BO;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 
 public class Utilisateur implements Serializable {
     private Integer id_utilisateur;
@@ -17,14 +17,15 @@ public class Utilisateur implements Serializable {
     private String mdp;
     private Integer credit;
     private Boolean administrateur;
-    private List<Article> articlesVendus;
-    private List<Article> articlesAchetes;
-    private List<Enchere> listeEncheres;
+    //private List<Article> articlesVendus;
+    //private List<Article> articlesAchetes;
+    //private List<Enchere> listeEncheres;
 
 
     public Utilisateur() {
     }
 
+    /*
     public Utilisateur(Integer id_utilisateur, String pseudo, String nom, String prenom, String email, String telephone, String rue, String cp, String ville, String mdp, Integer credit, boolean administrateur, List<Article> articlesVendus, List<Article> articlesAchetes, List<Enchere> listeEncheres) {
         this.id_utilisateur = id_utilisateur;
         this.pseudo = pseudo;
@@ -42,7 +43,7 @@ public class Utilisateur implements Serializable {
         this.articlesAchetes = articlesAchetes;
         this.listeEncheres = listeEncheres;
     }
-
+     */
     public Utilisateur(Integer id_utilisateur, String pseudo, String nom, String prenom, String email, String telephone, String rue, String cp, String ville, String mdp, Integer credit, boolean administrateur) {
         this.id_utilisateur = id_utilisateur;
         this.pseudo = pseudo;
@@ -69,9 +70,9 @@ public class Utilisateur implements Serializable {
         this.ville = ville;
         this.mdp = mdp;
         this.credit = 0;
-        this.articlesVendus = new ArrayList<Article>();
-        this.articlesAchetes = new ArrayList<Article>();
-        this.listeEncheres = new ArrayList<Enchere>();
+        //this.articlesVendus = new ArrayList<Article>();
+        //this.articlesAchetes = new ArrayList<Article>();
+        //this.listeEncheres = new ArrayList<Enchere>();
     }
 
     public Integer getId_utilisateur() {
@@ -170,6 +171,7 @@ public class Utilisateur implements Serializable {
         this.administrateur = administrateur;
     }
 
+    /*
     public List<Article> getArticlesVendus() {
         return articlesVendus;
     }
@@ -193,6 +195,7 @@ public class Utilisateur implements Serializable {
     public void setListeEncheres(List<Enchere> listeEncheres) {
         this.listeEncheres = listeEncheres;
     }
+     */
 
     @Override
     public String toString() {
@@ -209,9 +212,9 @@ public class Utilisateur implements Serializable {
                 ", mdp='" + mdp + '\'' +
                 ", credit=" + credit +
                 ", administrateur=" + administrateur +
-                ", articlesVendus=" + articlesVendus +
-                ", articlesAchetes=" + articlesAchetes +
-                ", listeEncheres=" + listeEncheres +
+                //", articlesVendus=" + articlesVendus +
+                //", articlesAchetes=" + articlesAchetes +
+                //", listeEncheres=" + listeEncheres +
                 '}';
     }
 }

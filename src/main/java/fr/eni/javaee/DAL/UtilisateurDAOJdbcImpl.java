@@ -12,7 +12,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
 
 
     public static final String INSERT_LISTE = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, rue, cp, ville ,mdp, credit) VALUES (?,?,?,?,?,?,?,?,?,?);";
-    public static final String SElECT_ALL = "SELECT * FROM UTILISATEURS;";
+    //public static final String SELECT_ALL = "SELECT * FROM UTILISATEURS;";
     public static final String SELECT_BY_ID = "SELECT * FROM UTILISATEURS WHERE id_utilisateur = ?;";
     public static final String SELECT_BY_PSEUDO ="SELECT * FROM UTILISATEURS WHERE pseudo = ?;";
     public static final String DELETE_USER = "DELETE FROM UTILISATEURS WHERE id_utilisateur = ?;";
@@ -48,7 +48,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
                     pstmt.setString(9, utilisateur.getMdp());
                     pstmt.setInt(10, utilisateur.getCredit());
                     pstmt.executeUpdate();
-                    rs = (ResultSet) pstmt.getGeneratedKeys();
+                    rs = pstmt.getGeneratedKeys();
                     if (rs.next()) {
                         utilisateur.setId_utilisateur(rs.getInt(1));
                     }
@@ -111,9 +111,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_BY_ID);
             pstmt.setInt(1,id);
             ResultSet rs = pstmt.executeQuery();
-            boolean premiereLigne = true;
             while (rs.next()){
-                if (premiereLigne){
                     utilisateur.setId_utilisateur(rs.getInt("id_utilisateur"));
                     utilisateur.setPseudo(rs.getString("pseudo"));
                     utilisateur.setNom(rs.getString("nom"));
@@ -126,8 +124,6 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
                     utilisateur.setMdp(rs.getString("mot_de_passe"));
                     utilisateur.setCredit(rs.getInt("credit"));
                     utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
-
-                }
             }
 
         } catch (SQLException e) {
@@ -145,9 +141,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
             PreparedStatement pstmt = cnx.prepareStatement(SELECT_BY_PSEUDO);
             pstmt.setString(1,pseudo);
             ResultSet rs = pstmt.executeQuery();
-            boolean premiereLigne = true;
             while (rs.next()){
-                if (premiereLigne){
                     utilisateur.setId_utilisateur(rs.getInt("id_utilisateur"));
                     utilisateur.setPseudo(rs.getString("pseudo"));
                     utilisateur.setNom(rs.getString("nom"));
@@ -160,8 +154,6 @@ public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
                     utilisateur.setMdp(rs.getString("mot_de_passe"));
                     utilisateur.setCredit(rs.getInt("credit"));
                     utilisateur.setAdministrateur(rs.getBoolean("administrateur"));
-
-                }
             }
 
         } catch (SQLException e) {

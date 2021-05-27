@@ -9,6 +9,8 @@ import fr.eni.javaee.DAL.ArticleDAOJdbcImpl;
 import fr.eni.javaee.DAL.DAOFactory;
 
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
 
 public class ArticleManager {
     private static ArticleDAO articleDAO = new ArticleDAOJdbcImpl();
@@ -20,8 +22,9 @@ public class ArticleManager {
     }
 
     public static Article nouvelleVente(Article article) throws BusinessException{
-        if (article.getDebutEnchere() == null || article.getFinEnchere() == null || article.getDebutEnchere().isBefore(LocalDate.now()) ||
-                article.getFinEnchere().isBefore(article.getDebutEnchere()))
+        Date date = new Date(System.currentTimeMillis());
+        if (article.getDebutEnchere() == null || article.getFinEnchere() == null || article.getDebutEnchere().before(date) ||
+                article.getFinEnchere().before(article.getDebutEnchere()))
         {
             businessException.ajouterErreur(CodesResultatsBLL.REGLE_ENCHERES_DATE_ERREUR);
         }
@@ -53,5 +56,17 @@ public class ArticleManager {
         if (article.getEtatVente()==EtatVente.ANNULE){
             articleDAO.delete(article.getId_article());
         }
+    }
+
+    public static List<Article> selectcionnerParVendeurNomCategorieEtat(Integer idVendeur,
+                                                                        String ce_que_larticle_doit_contenir,
+                                                                        String categorie,
+                                                                        List<EtatVente> listeEtatVente) throws BusinessException{
+        return articleDAO.getByVendeurNomCategorieEtat(idVendeur, ce_que_larticle_doit_contenir, categorie, listeEtatVente);
+    }
+
+    public static List<Article> selectionnerParNomCategorieEnCours(String ce_que_larticle_doit_contenir,
+                                                                   String categorie) throws BusinessException{
+        return articleDAO.getByNomcategorieEnCours(ce_que_larticle_doit_contenir,categorie);
     }
 }

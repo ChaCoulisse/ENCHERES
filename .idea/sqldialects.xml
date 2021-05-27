@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/src/main/java/fr/eni/javaee/DAL/ArticleDAOJdbcImpl.java" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/fr/eni/javaee/DAL/CategorieDAOJdbcImpl.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/fr/eni/javaee/DAL/EnchereDAOJdbcImpl.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/fr/eni/javaee/DAL/RetraitDAOJdbcImpl.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/fr/eni/javaee/DAL/UtilisateurDAOJdbcImpl.java" dialect="GenericSQL" />
+  </component>
+</project>

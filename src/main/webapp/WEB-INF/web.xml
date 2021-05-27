@@ -9,7 +9,7 @@
         <param-value>/META-INF/context.xml</param-value>
     </context-param>
     <welcome-file-list>
-            <welcome-file>inscription</welcome-file>
+            <welcome-file>accueil</welcome-file>
             <welcome-file></welcome-file>
             <welcome-file></welcome-file>
     </welcome-file-list>

@@ -1,6 +1,5 @@
 package fr.eni.javaee.servlet;
 
-import com.sun.org.apache.xml.internal.security.c14n.implementations.UtfHelpper;
 import fr.eni.javaee.BLL.ArticleManager;
 import fr.eni.javaee.BLL.CategorieManager;
 import fr.eni.javaee.BLL.RetraitManager;
@@ -27,7 +26,8 @@ public class ServletDetailVente extends HttpServlet {
 
     @Override
     protected void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id_article = Integer.parseInt(request.getParameter("id_article"));
+        //int id_article = Integer.parseInt(request.getParameter("id_article"));
+        int id_article = 1;
 
         // On récupère l'article avec id_article
         Article afficherArticle = null;
@@ -60,7 +60,7 @@ public class ServletDetailVente extends HttpServlet {
 
         /*******************************   A CONPLETER LA CONDITION ***********************************/
         if (afficherArticle != null) {
-            request.getRequestDispatcher("../webapp/WEB-INF/JSPDetailVente.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/DetailVente.jsp").forward(request, response);
         }
 
         //On récupère le pseudo du vendeur grace à l'id_utilisateur (getVendeur()) dans la classe article
@@ -70,8 +70,9 @@ public class ServletDetailVente extends HttpServlet {
         } catch (BusinessException businessException) {
             businessException.printStackTrace();
         }
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/DetailVente.jsp");
+        rd.forward(request,response);
 
-        request.getRequestDispatcher("/WEB-INF/JSPDetailVente.jsp").forward(request, response);
     }
     @Override
     protected void doPost (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

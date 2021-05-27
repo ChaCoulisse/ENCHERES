@@ -1,6 +1,8 @@
 package fr.eni.javaee.Forms;
 
+import fr.eni.javaee.BLL.UtilisateurManager;
 import fr.eni.javaee.BO.Utilisateur;
+import fr.eni.javaee.BusinessException;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.HashMap;
@@ -42,7 +44,7 @@ public class InscriptionUtilisateurForm {
         return resultat;
     }
 
-    public Utilisateur inscrireUtilisateur (HttpServletRequest request) {
+    public Utilisateur inscrireUtilisateur (HttpServletRequest request) throws BusinessException {
         String pseudo = request.getParameter(CHAMP_PSEUDO);
         String nom = request.getParameter(CHAMP_NOM);
         String prenom = request.getParameter(CHAMP_PRENOM);
@@ -123,6 +125,7 @@ public class InscriptionUtilisateurForm {
 
         if (erreurs.isEmpty()) {
             resultat = "Succès de la création de l'utilisateur.";
+            UtilisateurManager.inscriptionUtilisateur(utilisateur);
         } else {
             resultat = "Échec de la création de l'utilisateur.";
         }

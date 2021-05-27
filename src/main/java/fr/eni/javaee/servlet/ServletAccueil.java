@@ -22,7 +22,8 @@ public class ServletAccueil extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        Integer id_utilisateur = (Integer) session.getAttribute("id_utilisateur");
+        //Integer id_utilisateur = (Integer) session.getAttribute("id_utilisateur");
+        Integer id_utilisateur = 1;
 
         // Récupération de toutes les catégorie pour les mettre dans la liste déroulate
         List<Categorie> listeCategories = new ArrayList<Categorie>();
@@ -60,6 +61,11 @@ public class ServletAccueil extends HttpServlet {
             mapFinEnchere.put(article.getVendeur(),dateToStr);
         }
 
+        request.setAttribute("listeArticles",listeArticles);
+        request.setAttribute("listeCategories", listeCategories);
+        request.setAttribute("mapNomUtilisateur", mapNomUtilisateur);
+        request.setAttribute("mapFinEnchere", mapFinEnchere);
+
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/Accueil.jsp");
         rd.forward(request,response);
     }
@@ -67,7 +73,8 @@ public class ServletAccueil extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        Integer id_utilisateur = (Integer) session.getAttribute("id_utilisateur");
+        //Integer id_utilisateur = (Integer) session.getAttribute("id_utilisateur");
+        Integer id_utilisateur = 1;
 
         //Récupération de toutes els categorie pour les mettre dans la liste déroulante
         List<Categorie> listeCategories = new ArrayList<Categorie>();
@@ -166,6 +173,12 @@ public class ServletAccueil extends HttpServlet {
             String dateToStr = dateFormat.format(article.getFinEnchere());
             mapFinEnchere.put(article.getVendeur(),dateToStr);
         }
+
+        request.setAttribute("listeArticles",listeArticles);
+        request.setAttribute("listeCategories", listeCategories);
+        request.setAttribute("mapNomUtilisateur", mapNomUtilisateur);
+        request.setAttribute("mapFinEnchere", mapFinEnchere);
+        request.setAttribute("recherche_nom",recherche_nom);
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/Accueil.jsp");
         rd.forward(request,response);

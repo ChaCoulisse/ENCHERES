@@ -206,10 +206,10 @@ public class ArticleDAOJdbcImpl implements ArticleDAO{
                     } else if (date_actuelle.after(date_debut) && date_actuelle.before(date_fin)){
                         etatVente = EtatVente.EN_COURS;
                     }
-                    listeArticles.add(new Article(rs.getInt("no_article"), rs.getString("nom_article"),
+                    listeArticles.add(new Article(rs.getInt("id_article"), rs.getString("nom_article"),
                             rs.getString("description"), rs.getDate("date_debut_encheres"),
                             rs.getDate("date_fin_encheres"), rs.getInt("prix_initial"),
-                            rs.getInt("prix_vente"), rs.getInt("no_utilistateur"), etatVente , rs.getInt("no_categorie")));
+                            rs.getInt("prix_vente"), rs.getInt("id_utilisateur"), etatVente , rs.getInt("id_categorie")));
                 }
             } else
 
@@ -262,10 +262,10 @@ public class ArticleDAOJdbcImpl implements ArticleDAO{
                     } else if (date_actuelle.after(date_debut) && date_actuelle.before(date_fin)){
                         etatVente = EtatVente.EN_COURS;
                     }
-                    listeArticles.add(new Article(rs.getInt("no_article"), rs.getString("nom_article"),
+                    listeArticles.add(new Article(rs.getInt("id_article"), rs.getString("nom_article"),
                             rs.getString("description"), rs.getDate("date_debut_encheres"),
                             rs.getDate("date_fin_encheres"), rs.getInt("prix_initial"),
-                            rs.getInt("prix_vente"), rs.getInt("no_utilistateur"), etatVente , rs.getInt("no_categorie")));
+                            rs.getInt("prix_vente"), rs.getInt("id_utilisateur"), etatVente , rs.getInt("id_categorie")));
                 }
             }
             pstmt.close();
@@ -306,10 +306,10 @@ public class ArticleDAOJdbcImpl implements ArticleDAO{
             }
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                listeArticles.add(new Article(rs.getInt("no_article"), rs.getString("nom_article"),
+                listeArticles.add(new Article(rs.getInt("id_article"), rs.getString("nom_article"),
                         rs.getString("description"),  rs.getDate("date_debut_encheres"),
                         rs.getDate("date_fin_encheres"), rs.getInt("prix_initial"),
-                        rs.getInt("prix_vente"), rs.getInt("no_utilistateur"), EtatVente.EN_COURS , rs.getInt("no_categorie")));
+                        rs.getInt("prix_vente"), rs.getInt("id_utilisateur"), EtatVente.EN_COURS , rs.getInt("id_categorie")));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

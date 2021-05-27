@@ -21,9 +21,9 @@
     </a>
     <div class="navbar-links">
         <ul>
-            <li><a href="">Enchères  </a></li>
-            <li><a href="">Vendre un article </a></li>
-            <li><a href="">Mon Profil  </a></li>
+<%--            <li><a href="">Enchères  </a></li>--%>
+            <li><a href="#">Vendre un article </a></li>
+            <li><a href="/profil">Mon Profil  </a></li>
             <li><a href="/accueil">Deconnexion  </a></li>
         </ul>
     </div>
@@ -34,7 +34,7 @@
     <div class="barre-recherche">
         <select class="categories" name="categories">
             <option value="Toutes">Toutes les catégories</option>
-            <c:forEach items="${liseCaterogies}" var="categorie">
+            <c:forEach items="${listeCategories}" var="categorie">
                 <option value="${categorie.libelle}">${categorie.libelle}</option>
             </c:forEach>
         </select>
@@ -107,7 +107,7 @@
                 <div class="card-body">
                     <div class="prix">Prix : ${article.prixVente} points</div>
                     <div class="card-date-enchere">
-                        <p> Fin de l'enchère : ${mapFinEnchere[article.finEnchere]}</p>
+                        <p> Fin de l'enchère : ${mapFinEnchere[article.vendeur]}</p>
                     </div>
                     <div class="vendeur">
                         <p><a href="#">Vendeur : ${mapNomUtilisateur[article.vendeur]}</a></p>

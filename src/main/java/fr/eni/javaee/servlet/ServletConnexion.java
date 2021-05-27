@@ -17,7 +17,7 @@ public class ServletConnexion extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSPConnexion.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/Connexion.jsp");
         rd.forward(request, response);
     }
 
@@ -30,12 +30,14 @@ public class ServletConnexion extends HttpServlet {
         try {
             if(serviceConnexion.validerConnexion(pseudo,mdp)){
                 session.setAttribute("pseudo",request.getParameter("identifiant"));
+                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/Accueil.jsp");
+                rd.forward(request, response);
             }
         } catch (BusinessException businessException) {
             businessException.printStackTrace();
             request.setAttribute("listeCodesErreur", businessException.getListeCodesErreur());
         }
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSPConnexion.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/Connexion.jsp");
         rd.forward(request, response);
     }
 }

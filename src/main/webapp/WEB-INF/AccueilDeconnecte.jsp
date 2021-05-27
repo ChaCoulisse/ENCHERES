@@ -8,8 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ page import="fr.eni.javaee.messages.LecteurMessage" %>
-<%@ page import="fr.eni.javaee.BO.Utilisateur" %>
-<%@ page import="fr.eni.javaee.BLL.UtilisateurManager" %>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <nav class="navbar">
@@ -64,7 +63,7 @@
                 <div class="card-body">
                     <div class="prix">Prix : ${article.prixVente} points</div>
                     <div class="card-date-enchere">
-                        <p> Fin de l'enchère : ${mapFinEnchere[article.finEnchere]}</p>
+                        <p> Fin de l'enchère : ${mapFinEnchere[article.vendeur]}</p>
                     </div>
                     <div class="vendeur">
                         <p><a href="#">Vendeur : ${mapNomUtilisateur[article.vendeur]}</a></p>

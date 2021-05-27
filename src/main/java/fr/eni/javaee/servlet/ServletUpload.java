@@ -22,7 +22,7 @@ public class ServletUpload extends HttpServlet {
 
     @Override
     protected void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        this.getServletContext().getRequestDispatcher("/WEB-INF/JSPUpload.jsp").forward(request,response);
+        this.getServletContext().getRequestDispatcher("/WEB-INF/Upload.jsp").forward(request,response);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ServletUpload extends HttpServlet {
             request.setAttribute(nomChamp, nomFichier);
         }
 
-        this.getServletContext().getRequestDispatcher("/WEB-INF/JSPUpload.jsp").forward(request, response);
+        this.getServletContext().getRequestDispatcher("/WEB-INF/Upload.jsp").forward(request, response);
     }
 
     private void ecrireFichier (Part part, String nomFichier, String chemin) throws IOException {

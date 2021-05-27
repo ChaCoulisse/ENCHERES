@@ -75,6 +75,7 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
         Retrait retrait = null;
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstm = cnx.prepareStatement(SELECT_BY_ID);
+            pstm.setInt(1,id);
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {
                 retrait = new Retrait();

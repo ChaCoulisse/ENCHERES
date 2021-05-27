@@ -97,10 +97,11 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
         Categorie categorie = null;
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement pstm = cnx.prepareStatement(SELECT_BY_ID);
+            pstm.setInt(1,id);
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {
                 categorie = new Categorie();
-                categorie.setId(rs.getInt("id"));
+                categorie.setId(rs.getInt("id_categorie"));
                 categorie.setLibelle(rs.getString("libelle"));
             }
         } catch (Exception e) {
@@ -140,7 +141,7 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {
                 categorie = new Categorie();
-                categorie.setId(rs.getInt("id"));
+                categorie.setId(rs.getInt("id_categorie"));
                 categorie.setLibelle(rs.getString("libelle"));
             }
         } catch (Exception e) {

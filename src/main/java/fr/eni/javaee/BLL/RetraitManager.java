@@ -32,12 +32,12 @@ public class RetraitManager {
     }
 
 
-    private static Retrait selectionnerRetraitByID(int id) throws BusinessException{
+    public static Retrait selectionnerRetraitByID(int id) throws BusinessException{
         return retraitDAO.selectById(id);
 
     }
 
-    private static void modifierRetrait(Retrait retrait) throws BusinessException{
+    public static void modifierRetrait(Retrait retrait) throws BusinessException{
         if(retrait.getRue() == null || retrait.getCp() == null || retrait.getVille() == null
                 || retrait.getRue().trim().equals("") ||  retrait.getCp().trim().equals("")
                 || retrait.getVille().trim().equals(""))

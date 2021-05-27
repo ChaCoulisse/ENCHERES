@@ -54,7 +54,7 @@ public class ServletAccueil extends HttpServlet {
             } catch (BusinessException businessException) {
                 businessException.printStackTrace();
             }
-            mapNomUtilisateur.put(article.getVendeur(),utilisateur.getNom());
+            mapNomUtilisateur.put(article.getVendeur(),utilisateur.getPseudo());
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             String dateToStr = dateFormat.format(article.getFinEnchere());
             mapFinEnchere.put(article.getVendeur(),dateToStr);
@@ -125,7 +125,7 @@ public class ServletAccueil extends HttpServlet {
                 listeEncheresConcat.addAll(listeEncheresEnCours);
                 for (Enchere enchere : listeEncheresConcat){
                     try {
-                        Article article = articleManager.selectAllById(enchere.getId_article());
+                        Article article = articleManager.selectById(enchere.getId_article());
                         listeArticles.add(article);
                     } catch (BusinessException businessException) {
                         businessException.printStackTrace();
@@ -147,6 +147,24 @@ public class ServletAccueil extends HttpServlet {
             listeArticles = articleManager.selectcionnerParVendeurNomCategorieEtat(id_utilisateur,recherche_nom,categories,listeEtatVente);
         } catch (BusinessException businessException) {
             businessException.printStackTrace();
+        }
+
+        // réupération des nom de la liste des vendeur dans  un tableau de type clé valeur
+        HashMap<Integer,String> mapNomUtilisateur = new HashMap<Integer,String>();
+        // récupértion des date convertir au type String pour afficher
+        HashMap<Integer,String> mapFinEnchere = new HashMap<Integer,String>();
+        for(Article article : listeArticles){
+            UtilisateurManager utilisateurManager = new UtilisateurManager();
+            Utilisateur utilisateur = null;
+            try {
+                utilisateur = utilisateurManager.selectById(article.getVendeur());
+            } catch (BusinessException businessException) {
+                businessException.printStackTrace();
+            }
+            mapNomUtilisateur.put(article.getVendeur(),utilisateur.getPseudo());
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String dateToStr = dateFormat.format(article.getFinEnchere());
+            mapFinEnchere.put(article.getVendeur(),dateToStr);
         }
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/Accueil.jsp");

@@ -17,8 +17,8 @@ public class EnchereDAOJdbcImpl implements EnchereDAO{
     public static final String INSERT = "INSERT into ENCHERES(id_utilisateur,id_article,date_enchere,montant_enchere,gagner) VALUES (?,?,?,?,?);";
     public static final String SELECT_ALL = "SELECT * FROM ENCHERES;";
     private static final String UPDATE = "UPDATE ENCHERES SET id_utilisateur= ?, id_article = ?,date_enchere = ?, " +
-                                             "montant_enchere= ?, gagner=? WHERE id=?";
-    private static final String DELETE = "DELETE ENCHERES WHERE id=?";
+                                             "montant_enchere= ?, gagner=? WHERE id_utilisateur=?";
+    private static final String DELETE = "DELETE ENCHERES WHERE id_utilisateur=?";
     private static final String SELECT_BY_UTILISATEUR = "SELECT * FROM ENCHERES WHERE id_utilisateur=?";
     private static final String SELECT_BY_GAGNER_PAR_UTILISATEUR = "SELECT * FROM ENCHERES WHERE id_utilisateur = ? AND gagner=?";
     private static final String SELECT_ALL_BY_ARTICLE = " SELECT * FROM ENCHERES WHERE id_article = ?";
@@ -104,11 +104,11 @@ public class EnchereDAOJdbcImpl implements EnchereDAO{
             PreparedStatement pstm = cnx.prepareStatement(UPDATE);
 
             pstm.setInt(1, enchere.getId_utilisateur());
-            pstm.setInt(2, enchere.getId_utilisateur());
-            pstm.setInt(3, enchere.getId_article());
-            pstm.setDate(4, Date.valueOf(enchere.getDateEnchere()));
-            pstm.setInt(5, enchere.getMontantEnchere());
-            pstm.setBoolean(6, enchere.isGagner());
+            pstm.setInt(2, enchere.getId_article());
+            pstm.setDate(3, Date.valueOf(enchere.getDateEnchere()));
+            pstm.setInt(4, enchere.getMontantEnchere());
+            pstm.setBoolean(5, enchere.isGagner());
+            pstm.setInt(6, enchere.getId_utilisateur());
             pstm.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

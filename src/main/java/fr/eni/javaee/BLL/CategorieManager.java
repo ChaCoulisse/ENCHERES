@@ -36,7 +36,7 @@ public class CategorieManager {
         return categorieDAO.selectAll();
     }
 
-    public Categorie selectionnerCategorieById(int id) throws BusinessException{
+    public static Categorie selectionnerCategorieById(int id) throws BusinessException{
         return categorieDAO.selectById(id);
     }
 

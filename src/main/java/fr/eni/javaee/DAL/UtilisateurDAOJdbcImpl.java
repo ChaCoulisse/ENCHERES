@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class UtilisateurDAOJdbcImpl implements UtilisateursDAO{
 
 
-    public static final String INSERT_LISTE = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, rue, cp, ville ,mdp, credit) VALUES (?,?,?,?,?,?,?,?,?,?);";
+    public static final String INSERT_LISTE = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, rue, code_postal, ville ,mot_de_passe, credit) VALUES (?,?,?,?,?,?,?,?,?,?);";
     //public static final String SELECT_ALL = "SELECT * FROM UTILISATEURS;";
     public static final String SELECT_BY_ID = "SELECT * FROM UTILISATEURS WHERE id_utilisateur = ?;";
     public static final String SELECT_BY_PSEUDO ="SELECT * FROM UTILISATEURS WHERE pseudo = ?;";

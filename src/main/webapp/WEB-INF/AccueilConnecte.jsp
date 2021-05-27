@@ -107,7 +107,7 @@
                 <div class="card-body">
                     <div class="prix">Prix : ${article.prixVente} points</div>
                     <div class="card-date-enchere">
-                        <p> Fin de l'enchère : ${mapFinEnchere[article.vendeur]}</p>
+                        <p> Fin de l'enchère : ${mapFinEnchere[article.finEnchere]}</p>
                     </div>
                     <div class="vendeur">
                         <p><a href="#">Vendeur : ${mapNomUtilisateur[article.vendeur]}</a></p>

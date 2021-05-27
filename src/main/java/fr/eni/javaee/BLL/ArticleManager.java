@@ -36,7 +36,7 @@ public class ArticleManager {
         return article;
     }
 
-    public static Article selectAllById (int id) throws BusinessException {
+    public static Article selectById (int id) throws BusinessException {
         return articleDAO.selectById(id);
     }
 

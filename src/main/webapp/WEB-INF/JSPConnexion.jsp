@@ -12,11 +12,12 @@
 
 <html>
 <head>
+    <link href="<c:url value="../WEB-CONTENT/stylesheet.css"/>" rel="stylesheet">
     <title>Connexion</title>
 </head>
 <body>
 
-    z<c:if test="${!empty listeCodesErreur}">
+    <c:if test="${!empty listeCodesErreur}">
         <div class="alert alert-danger" role="alert">
             <strong>Erreur!</strong>
             <ul>
@@ -35,18 +36,31 @@
         </c:when>
 
         <c:otherwise>
-            <form method="post" action="${pageContext.request.contextPath}/connexion">
+    <section class="register-form">
+            <form class="register" method="post" action="${pageContext.request.contextPath}/connexion">
+                <div class="input-field">
                 <label for="identifiant">Identifiant</label>
                     <input id="identifiant" type="text" name="identifiant" value="${requestScope['identifiant']}">
+                </div>
+                    <div class="input-field">
                 <label for="mdp">Mot de passe</label>
                     <input id="mdp" type="password" name="mdp" value="">
-                <input type="submit" value="connexion">
+                    </div>
+
+                <div class="btnConnexion">
+                    <div>
+                        <button class="btn" type="submit">Connexion</button>
+                    </div>
+                    <div class="btnConnexion">
+                        <button class="btn" type="button"><a href="/inscription">Créer un nouveau compte</a></button>
+                    </div>
+                </div>
             </form>
+    </section>
         </c:otherwise>
 
     </c:choose>
 
-    <a href="/inscription">créer un nouveau compte</a>
 
 </body>
 </html>

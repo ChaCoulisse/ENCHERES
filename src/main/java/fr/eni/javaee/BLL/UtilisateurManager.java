@@ -37,7 +37,7 @@ public class UtilisateurManager {
         return utilisateur;
     }
 
-    public void delete(Integer id) throws BusinessException {
+    public static void delete(Integer id) throws BusinessException {
         utilisateursDAO.delete(id);
     }
 
@@ -46,11 +46,11 @@ public class UtilisateurManager {
     }
     */
 
-    public Utilisateur selectById(int id) throws BusinessException{
+    public static Utilisateur selectById(int id) throws BusinessException{
         return utilisateursDAO.selectById(id);
     }
 
-    public Utilisateur selectByPseudo(String pseudo) throws BusinessException{
+    public static Utilisateur selectByPseudo(String pseudo) throws BusinessException{
         return utilisateursDAO.selectByPseudo(pseudo);
     }
 }

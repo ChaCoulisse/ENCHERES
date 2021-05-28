@@ -1,3 +1,8 @@
+/**
+ * @author ROUILLY Charlotte, LY Txu-Feng
+ */
+
+
 package fr.eni.javaee.DAL;
 
 public abstract class CodesResultatsDAL {

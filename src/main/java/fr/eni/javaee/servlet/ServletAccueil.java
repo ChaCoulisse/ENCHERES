@@ -22,8 +22,8 @@ public class ServletAccueil extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        //Integer id_utilisateur = (Integer) session.getAttribute("id_utilisateur");
-        Integer id_utilisateur = 1;
+        Integer id_utilisateur = (Integer) session.getAttribute("id_utilisateur");
+        request.setAttribute("id",id_utilisateur);
 
         // Récupération de toutes les catégorie pour les mettre dans la liste déroulate
         List<Categorie> listeCategories = new ArrayList<Categorie>();
@@ -73,8 +73,9 @@ public class ServletAccueil extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        //Integer id_utilisateur = (Integer) session.getAttribute("id_utilisateur");
-        Integer id_utilisateur = 1;
+        Integer id_utilisateur = null;
+        id_utilisateur= (Integer) session.getAttribute("id_utilisateur");
+        request.setAttribute("id",id_utilisateur);
 
         //Récupération de toutes els categorie pour les mettre dans la liste déroulante
         List<Categorie> listeCategories = new ArrayList<Categorie>();
@@ -106,54 +107,63 @@ public class ServletAccueil extends HttpServlet {
         String encours = request.getParameter("encours");
         String nondebut = request.getParameter("nondebut");
         String terminees = request.getParameter("terminees");
-        if(bouton_radio.equals("achat")){
-            if(ouvert != null){
-                try {
-                    listeArticles = articleManager.selectionnerParNomCategorieEnCours(recherche_nom,categories);
-                } catch (BusinessException businessException) {
-                    businessException.printStackTrace();
-                }
-            } else{
-                if(cours != null) {
+
+        if(id_utilisateur != null) {
+            if (bouton_radio.equals("achat")) {
+                if (ouvert != null) {
                     try {
-                        listeEncheresEnCours = enchereManager.selectionnerParUtilisateur(id_utilisateur);
+                        listeArticles = articleManager.selectionnerParNomCategorieEnCours(recherche_nom, categories);
                     } catch (BusinessException businessException) {
                         businessException.printStackTrace();
                     }
-                }
-                if(gagner != null) {
-                    try {
-                        listeEncheresGagne = enchereManager.selectionnerParUtilisateur(id_utilisateur);
-                    } catch (BusinessException businessException) {
-                        businessException.printStackTrace();
+                } else {
+                    if (cours != null) {
+                        try {
+                            listeEncheresEnCours = enchereManager.selectionnerParUtilisateur(id_utilisateur);
+                        } catch (BusinessException businessException) {
+                            businessException.printStackTrace();
+                        }
+                    }
+                    if (gagner != null) {
+                        try {
+                            listeEncheresGagne = enchereManager.selectionnerParUtilisateur(id_utilisateur);
+                        } catch (BusinessException businessException) {
+                            businessException.printStackTrace();
+                        }
+                    }
+                    listeEncheresConcat.addAll(listeEncheresGagne);
+                    listeEncheresConcat.addAll(listeEncheresEnCours);
+                    for (Enchere enchere : listeEncheresConcat) {
+                        try {
+                            Article article = articleManager.selectById(enchere.getId_article());
+                            listeArticles.add(article);
+                        } catch (BusinessException businessException) {
+                            businessException.printStackTrace();
+                        }
                     }
                 }
-                listeEncheresConcat.addAll(listeEncheresGagne);
-                listeEncheresConcat.addAll(listeEncheresEnCours);
-                for (Enchere enchere : listeEncheresConcat){
-                    try {
-                        Article article = articleManager.selectById(enchere.getId_article());
-                        listeArticles.add(article);
-                    } catch (BusinessException businessException) {
-                        businessException.printStackTrace();
-                    }
+            } else if (bouton_radio.equals("ventes")) {
+                if (encours != null) {
+                    listeEtatVente.add(EtatVente.EN_COURS);
+                }
+                if (nondebut != null) {
+                    listeEtatVente.add(EtatVente.CREE);
+                }
+                if (terminees != null) {
+                    listeEtatVente.add(EtatVente.ENCHERES_TERMINEES);
                 }
             }
-        }else if (bouton_radio.equals("ventes")){
-            if(encours != null){
-                listeEtatVente.add(EtatVente.EN_COURS);
+            try {
+                listeArticles = articleManager.selectcionnerParVendeurNomCategorieEtat(id_utilisateur, recherche_nom, categories, listeEtatVente);
+            } catch (BusinessException businessException) {
+                businessException.printStackTrace();
             }
-            if (nondebut != null){
-                listeEtatVente.add(EtatVente.CREE);
+        } else { // si il n'y a pas de session
+            try {
+                listeArticles = articleManager.selectionnerParNomCategorieEnCours(recherche_nom,categories);
+            } catch (BusinessException businessException) {
+                businessException.printStackTrace();
             }
-            if (terminees != null) {
-                listeEtatVente.add(EtatVente.ENCHERES_TERMINEES);
-            }
-        }
-        try {
-            listeArticles = articleManager.selectcionnerParVendeurNomCategorieEtat(id_utilisateur,recherche_nom,categories,listeEtatVente);
-        } catch (BusinessException businessException) {
-            businessException.printStackTrace();
         }
 
         // réupération des nom de la liste des vendeur dans  un tableau de type clé valeur

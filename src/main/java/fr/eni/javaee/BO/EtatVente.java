@@ -1,3 +1,8 @@
+/**
+ * @author ROUILLY Charlotte
+ */
+
+
 package fr.eni.javaee.BO;
 
 public enum EtatVente {

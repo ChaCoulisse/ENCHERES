@@ -1,10 +1,7 @@
 <%--
-  Created by IntelliJ IDEA.
-  User: txufe
-  Date: 26/05/2021
-  Time: 14:57
-  To change this template use File | Settings | File Templates.
+  author LY Txu-Feng
 --%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ page import="fr.eni.javaee.messages.LecteurMessage" %>
@@ -24,7 +21,7 @@
             <%--            <li><a href="">Enchères  </a></li>--%>
             <li><a href="#">Vendre un article </a></li>
             <li><a href="/profil">Mon Profil  </a></li>
-            <li><a href="/accueil">Deconnexion  </a></li>
+            <li><a href="/deconnexion">Deconnexion  </a></li>
         </ul>
     </div>
 
@@ -54,15 +51,15 @@
             </div>
             <ul>
                 <li>
-                    <input type="checkbox" id="ouvert" name="ouvert" >
+                    <input type="checkbox" id="ouvert" name="ouvert" value="ouvert">
                     <label for="ouvert">Enchères ouvertes</label>
                 </li>
                 <li>
-                    <input type="checkbox" id="cours" name="cours" >
+                    <input type="checkbox" id="cours" name="cours" value="cours">
                     <label for="cours">Mes enchères en cours</label>
                 </li>
                 <li>
-                    <input type="checkbox" id="gagner" name="gagner" >
+                    <input type="checkbox" id="gagner" name="gagner" value="gagner">
                     <label for="gagner">Mes enchères remportées</label>
                 </li>
             </ul>
@@ -74,15 +71,15 @@
             </div>
             <ul>
                 <li>
-                    <input type="checkbox" id="encours" name="encours" disabled>
+                    <input type="checkbox" id="encours" name="encours" value="encours" disabled>
                     <label for="encours">Mes ventes en cours</label>
                 </li>
                 <li>
-                    <input type="checkbox" id="nondebut" name="nondebut" disabled>
+                    <input type="checkbox" id="nondebut" name="nondebut" value="nondebut" disabled>
                     <label for="nondebut">Ventes non débutées</label>
                 </li>
                 <li>
-                    <input type="checkbox" id="terminees" name="terminees" disabled>
+                    <input type="checkbox" id="terminees" name="terminees" value="terminees" disabled>
                     <label for="terminees">Ventes terminées</label>
                 </li>
             </ul>
@@ -91,7 +88,7 @@
 </form>
 
 <div>
-    <h1 class="titre">Liste des enchères en cours</h1>
+    <h1 class="titre">Liste des enchères en cours </h1>
 </div>
 <div class="container">
     <div class="card-grid">
@@ -99,7 +96,7 @@
         <c:forEach items="${listeArticles}" var="article">
             <div class="card">
                 <div class="card-header">
-                    <h1><a href="/detailArticle"+"?"+"${id_article=article.id_article}">${article.nom}</a> </h1>
+                    <h1><a href="/detailArticle?id_article=?{article.id_article}">${article.nom}</a> </h1>
                 </div>
                 <div class="card-img-container">
                     <img src="METTRE PHOTO PRODUIT" alt="">

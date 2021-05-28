@@ -1,11 +1,10 @@
+/**
+ * @author ROUILLY Charlotte
+ */
+
 package fr.eni.javaee.BO;
 
-import fr.eni.javaee.BLL.UtilisateurManager;
-import fr.eni.javaee.BusinessException;
-
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Article implements Serializable {

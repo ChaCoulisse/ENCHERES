@@ -1,3 +1,8 @@
+/**
+ * @author ROUILLY Charlotte
+ */
+
+
 package fr.eni.javaee.BLL;
 
 import fr.eni.javaee.BO.Enchere;

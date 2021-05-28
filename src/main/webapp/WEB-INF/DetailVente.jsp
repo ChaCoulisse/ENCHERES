@@ -1,3 +1,7 @@
+<%--
+  author ROUILLY Charlotte
+--%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -40,7 +44,7 @@
     <section class="register-form">
         <form class="register">
 
-            <<div class="input-field">
+            <div class="input-field">
             <div class="d-inline-flex p-2">Nom :</div>
             <div class="form-group col-sm-2">
                 <div class="d-inline-flex p-2"><c:out value="${afficherArticle.nom }"/></div>

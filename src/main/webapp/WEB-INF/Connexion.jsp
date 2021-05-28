@@ -1,10 +1,7 @@
 <%--
-  Created by IntelliJ IDEA.
-  User: txufe
-  Date: 19/05/2021
-  Time: 11:41
-  To change this template use File | Settings | File Templates.
+  author LY Txu-Feng
 --%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ page import="fr.eni.javaee.messages.LecteurMessage" %>

@@ -1,3 +1,7 @@
+/**
+ * @author ROUILLY Charlotte
+ */
+
 package fr.eni.javaee.BO;
 
 import java.io.Serializable;

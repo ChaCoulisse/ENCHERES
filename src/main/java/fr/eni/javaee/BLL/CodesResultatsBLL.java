@@ -1,3 +1,8 @@
+/**
+ * @author ROUILLY Charlotte, LY Txu-Feng
+ */
+
+
 package fr.eni.javaee.BLL;
 
 public abstract class CodesResultatsBLL {

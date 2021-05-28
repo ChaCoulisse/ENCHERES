@@ -68,6 +68,7 @@ public class ServletDetailVente extends HttpServlet {
         request.setAttribute("afficherRetrait",afficherRetrait);
         request.setAttribute("afficherRetrait",afficherRetrait);
         request.setAttribute("utilisateur",utilisateur);
+        request.setAttribute("dateFinToString",dateFinToString);
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/DetailVente.jsp");
         rd.forward(request,response);

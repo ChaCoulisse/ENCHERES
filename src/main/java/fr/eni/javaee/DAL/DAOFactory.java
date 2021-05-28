@@ -1,3 +1,7 @@
+/**
+ * @author ROUILLY Charlotte
+ */
+
 package fr.eni.javaee.DAL;
 
 public class DAOFactory {
